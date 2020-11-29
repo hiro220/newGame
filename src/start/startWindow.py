@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# conding:utf-8
+# coding:utf-8
 
 import pygame
 from pygame.locals import *
@@ -36,7 +36,6 @@ class StartWindow:
 
             elif event.type == QUIT:
                 self.exit = True
-
 
     def draw(self, screen):
         print("Now Selected : ", end="")

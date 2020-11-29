@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# conding:utf-8
+# coding:utf-8
 
 import pygame
 from pygame.locals import *
@@ -36,7 +36,6 @@ class Main(pygame.sprite.Sprite):
     def exit(self):
         pygame.quit()
         sys.exit()
-
 
 if __name__=='__main__':
     game = Main(args.cheat)
