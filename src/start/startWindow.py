@@ -3,6 +3,7 @@
 
 import pygame
 from pygame.locals import *
+import os
 
 class StartWindow:
     def __init__(self, screen):
@@ -38,12 +39,15 @@ class StartWindow:
 
 
     def draw(self, screen):
+        print("Now Selected : ", end="")
         screen.blit(self.game_text, [530, 300])         # START GAMEを描画
         screen.blit(self.end_text, [530, 360])          # EXITを描画
         if self.select == 0:
             y = 300
+            print("Start")
         elif self.select == 1:
             y = 360
+            print("End")
         screen.blit(self.choice_text, [505, y])    #選択矢印->をEndの横へ描画
         
     def keyReturn(self):
