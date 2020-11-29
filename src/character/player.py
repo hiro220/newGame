@@ -8,8 +8,8 @@ from character.character import Character
 class PlayerSample(Character):
     def __init__(self):
         super().__init__()
-        self.dx = 1
-        self.dy = 1
+        self.dx = 10
+        self.dy = 10
 
     def move(self):
         # 押されたキーを受け取る
