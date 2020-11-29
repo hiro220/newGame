@@ -8,6 +8,7 @@ import os
 import argparse
 
 from include import window
+from start.startWindow import StartWindow
 
 parser = argparse.ArgumentParser(description='ReK')
 parser.add_argument('-c', '--cheat', action='store_true', help="チート")
@@ -29,6 +30,14 @@ class Main(pygame.sprite.Sprite):
             # Windows
             self.screen = pygame.display.set_mode((window.WIDTH, window.HEIGHT))   # ウィンドウをWIDTH×HEIGHTで作成する
 
+    def do(self):
+        StartWindow(self.screen)
+
+    def exit(self):
+        pygame.quit()
+        sys.exit()
+
+
 if __name__=='__main__':
     game = Main(args.cheat)
-    #game.do()
+    game.do()
