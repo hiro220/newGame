@@ -8,12 +8,14 @@ from character.player import PlayerSample
 
 class Game:
     def __init__(self, screen):
+        self.clock = pygame.time.Clock()        # 時間管理用
         self.player = PlayerSample()
         self.exit = False
         self.do(screen)
 
     def do(self, screen):
         while True:
+            self.clock.tick(30)         # フレームレート(30fps)
             self.process()
             self.draw(screen)
             pygame.display.update()
