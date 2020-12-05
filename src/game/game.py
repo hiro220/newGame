@@ -5,7 +5,7 @@ import pygame
 from pygame.locals import *
 
 from character.player import PlayerSample
-from include.timer import Timer
+from common.timer import Timer
 
 class Game:
     def __init__(self, screen):
