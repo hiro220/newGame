@@ -1,7 +1,7 @@
 # coding:utf-8
 
 import pygame
-from include.programTime import time
+from common.programTime import time
 
 class Timer(pygame.sprite.Sprite):
 
