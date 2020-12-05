@@ -18,14 +18,18 @@ class PlayerSample(Character):
             super().move(0, -self.dy)
         if key[K_DOWN]:                     # 矢印キー下が押されているとき(長押し)
             super().move(0, self.dy)
-        if key[K_RIGHT]:                    # 矢印キー右が押されているとき(長押し)
+        if key[K_d]:                    # 矢印キー右が押されているとき(長押し)
             super().move(self.dx, 0)
             self.direction = 1
-        if key[K_LEFT]:                     # 矢印キー左が押されているとき(長押し)
+        if key[K_a]:                     # 矢印キー左が押されているとき(長押し)
             super().move(-self.dx, 0)
             self.direction = 0
 
+    def natural_down(self):
+        super().move(0, self.gravity)
+
     def draw(self, screen):
+        self.natural_down()
         pygame.draw.rect(screen, (255,0,0), self.rect)
         x = self.rect.x + (self.rect.width * self.direction or -5)
         y = self.rect.y + self.rect.height / 4
