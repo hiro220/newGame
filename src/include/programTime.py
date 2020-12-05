@@ -17,5 +17,3 @@ class Time:
         self.pause_time += pygame.time.get_ticks() - self.stop_time
 
 time = Time()
-
-print("time")
