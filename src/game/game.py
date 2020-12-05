@@ -16,8 +16,6 @@ class Game:
         self.timers = pygame.sprite.Group()
         Timer.containers = self.timers
         
-        print("タイマーテスト")
-        Timer(2000, self.test)
         self.do(screen)
 
     def do(self, screen):
@@ -45,7 +43,3 @@ class Game:
     def draw(self, screen):
         screen.fill((255,255,255))
         self.player.draw(screen)
-
-    
-    def test(self):
-        print("タイマー処理")
