@@ -14,10 +14,7 @@ class PlayerSample(Character):
     def move(self):
         # 押されたキーを受け取る
         key = pygame.key.get_pressed()
-        if key[K_UP]:                       # 矢印キー上が押されているとき(長押し)
-            super().move(0, -self.dy)
-        if key[K_DOWN]:                     # 矢印キー下が押されているとき(長押し)
-            super().move(0, self.dy)
+        self.natural_down()
         if key[K_d]:                    # 矢印キー右が押されているとき(長押し)
             super().move(self.dx, 0)
             self.direction = 1
@@ -29,7 +26,6 @@ class PlayerSample(Character):
         super().move(0, self.gravity)
 
     def draw(self, screen):
-        self.natural_down()
         pygame.draw.rect(screen, (255,0,0), self.rect)
         x = self.rect.x + (self.rect.width * self.direction or -5)
         y = self.rect.y + self.rect.height / 4
