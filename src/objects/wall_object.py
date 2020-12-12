@@ -4,7 +4,7 @@ from pygame.locals import *
 class WallObject(pygame.sprite.Sprite):
     def __init__(self, filename, x, y, width, height, vy):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(image.wall.jpg).convert_alpha()
+        self.image = pygame.image.load(filename).convert_alpha()
         self.width = width
         self.height = height
         self.rect = Rect(x, y, width, height)

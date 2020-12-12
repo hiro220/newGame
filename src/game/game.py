@@ -11,16 +11,12 @@ class Game:
     def __init__(self, screen):
         self.clock = pygame.time.Clock()        # 時間管理用
         self.player = PlayerSample()
-        self.left_wall = pygame.Rect(-10,0,15,200)
-        self.right_wall = pygame.Rect(1155,0,5,200)
         self.exit = False
-        self.do(screen)
-
         self.wall_group = pygame.sprite.Group()      # オブジェクト[壁]のグループ 
         WallObject.containers = self.wall_group
-
         self.wall1 = WallObject("image/wall.jpg", 0, 0, 15, 200, 5)
-        self.wall2 = WallObject("image/wall.jpg", 0, 0, 1160, -15, 5)
+        self.wall2 = WallObject("image/wall.jpg", 1160, 0, 15, 200, 5)
+        self.do(screen)
 
     def do(self, screen):
         while True:
@@ -47,8 +43,6 @@ class Game:
     def draw(self, screen):
         screen.fill((255,255,255))
         self.player.draw(screen)
-        self.wall_group.draw()
-        pygame.draw.rect(screen, (0,0,255), self.left_wall)
-        pygame.draw.rect(screen, (0,0,255), self.right_wall)
+        self.wall_group.draw(screen)
 
     
