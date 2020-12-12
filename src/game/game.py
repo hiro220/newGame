@@ -14,8 +14,8 @@ class Game:
         self.exit = False
         self.wall_group = pygame.sprite.Group()      # オブジェクト[壁]のグループ 
         WallObject.containers = self.wall_group
-        WallObject(0, 0, 15, 600, 5)
-        WallObject(1145, 0, 15, 600, 5)
+        WallObject(0, 0, 15, 600)
+        WallObject(1145, 0, 15, 600)
         self.do(screen)
 
     def do(self, screen):
