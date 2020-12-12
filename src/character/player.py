@@ -9,7 +9,7 @@ class PlayerSample(Character):
     def __init__(self):
         super().__init__()
         self.dx = 10
-        self.dy = 10
+        self.dy = 15
 
     def move(self):
         # 押されたキーを受け取る
@@ -21,6 +21,8 @@ class PlayerSample(Character):
         if key[K_a]:                     # 矢印キー左が押されているとき(長押し)
             super().move(-self.dx, 0)
             self.direction = 0
+        if key[K_SPACE]:
+            super().move(0, -self.dy)
 
     def natural_down(self):
         super().move(0, self.gravity)
