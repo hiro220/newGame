@@ -7,7 +7,7 @@ from character.character import Character
 
 class PlayerSample(Character):
     def __init__(self):
-        super().__init__()
+        super().__init__("../image/character/player.png")
         self.dx = 10
         self.dy = 10
 
