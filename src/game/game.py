@@ -16,6 +16,7 @@ class Game:
         WallObject.containers = self.wall_group
         WallObject(0, 0, 15, 600)
         WallObject(1145, 0, 15, 600)
+        WallObject(0, 545, 1160, 15)
         self.do(screen)
 
     def do(self, screen):
@@ -30,7 +31,8 @@ class Game:
 
     def process(self):
         self.player.move()
-        self.wall_group.update()
+        self.collide_judge(self.player, self.wall_group)
+
         for event in pygame.event.get():
             if event.type == KEYDOWN:
                 # キーボード入力
@@ -44,5 +46,14 @@ class Game:
         screen.fill((255,255,255))
         self.player.draw(screen)
         self.wall_group.draw(screen)
+
+    def collide_judge(self, player, wall_group):
+        print(player.rect.left)
+        collide_list = pygame.sprite.spritecollide(player, wall_group, False)
+        if collide_list:
+            for collided_object in collide_list:
+                collided_object.update(player)
+        else:
+            print("debug")
 
     
