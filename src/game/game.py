@@ -22,7 +22,13 @@ class Game:
             WallObject(0, i, 100, 100)
 
         for i in range(0, 600, 100):
-            WallObject(800, i, 100, 100)
+            WallObject(1060, i, 100, 100)
+
+        for i in range(0, 1200, 100):
+            WallObject(i, 500, 100, 100)
+
+        for i in range(0, 1200, 100):
+            WallObject(i, 0, 100, 100)
 
         self.do(screen)
 

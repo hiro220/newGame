@@ -14,47 +14,40 @@ class WallObject(pygame.sprite.Sprite):
             self.action(player)
 
     def action(self, player):
-        print("old", player.oldrect.left, "new", player.rect.left)
         xvectols = player.oldrect.centerx
         xvectole = player.rect.centerx
-        print("xvectole: ", xvectole)
         yvectols = player.oldrect.centery
         yvectole = player.rect.centery
 
         xvecLen = xvectole - xvectols
         yvecLen = yvectole - yvectols
-        print("xvecLen: ", xvecLen)
         if xvecLen > 0:
-            print("result", xvectols)
             Pxvec = pygame.Rect(xvectols + (player.rect.width / 2), yvectols, xvecLen, 1)
-            print("PxvecLeft: ", Pxvec.left, "Pxvecright: ", Pxvec.right, "Pxvectop", Pxvec.top, "Pxvecbottom", Pxvec.bottom)
         elif xvecLen < 0:
-            Pxvec = pygame.Rect((xvectole - (player.rect.width / 2)), yvectols, xvecLen * -1, 1)
+            Pxvec = pygame.Rect(xvectole - (player.rect.width / 2), yvectols, xvecLen * -1, 1)
         else:
-            return
+            Pxvec = pygame.Rect(-100, -100, -100, -100)
         
         if yvecLen > 0:
-            Pyvec = pygame.Rect(xvectols, yvectols, 0, yvectole)
+            Pyvec = pygame.Rect(xvectols, yvectols + (player.rect.height / 2), 1, yvecLen)
+        elif yvecLen < 0:
+            Pyvec = pygame.Rect(xvectols, yvectole - (player.rect.height / 2), 1, yvecLen * -1)
+        else:
+            Pyvec = pygame.Rect(-100, -100, -100, -100)
 
-        obj_rightline = pygame.Rect(self.rect.right - 1, self.rect.top, 1, self.rect.bottom)
+        obj_rightline = pygame.Rect(self.rect.right - 1, self.rect.top, 1, self.rect.height)
         obj_leftline = pygame.Rect(self.rect.left, self.rect.top, 1, self.rect.height)
-        print("obj_leftline.left", obj_leftline.left, "obj_left_line.right", obj_leftline.right, "obj_leftline.top", obj_leftline.top, "obj_left_line.bottom", obj_leftline.bottom)
-        obj_bottomline = pygame.Rect(self.rect.left, self.rect.bottom, self.rect.right, 0)
-        obj_topline = pygame.Rect(self.rect.left, self.rect.top, self.rect.bottom, 0)
+        obj_bottomline = pygame.Rect(self.rect.left, self.rect.bottom - 1, self.rect.width, 1)
+        obj_topline = pygame.Rect(self.rect.left, self.rect.top, self.rect.width, 1)
 
-        print("Pxvecx", Pxvec.left, Pxvec.right, ": obj_rightline", obj_rightline.right)
         if Pxvec.colliderect(obj_rightline):
             player.rect.move_ip(player.dx, 0)
-            print("left")
 
         if Pxvec.colliderect(obj_leftline):
             player.rect.move_ip(-player.dx, 0)
-            print("right")
 
-        #if Pyvec.colliderect(obj_bottomline):
-        #    player.rect.move_ip(player.dy, 0)
-        #    print("top")
+        if Pyvec.colliderect(obj_bottomline):
+            player.rect.move_ip(0, player.dy)
 
-        #if Pyvec.colliderect(obj_topline):
-        #    player.rect.move_ip(-player.dy, 0)
-        #    print("bottom")
+        if Pyvec.colliderect(obj_topline):
+            player.rect.move_ip(0, -player.dy)
