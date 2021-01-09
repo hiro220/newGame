@@ -11,6 +11,7 @@ class Game:
         self.clock = pygame.time.Clock()        # 時間管理用
         self.player = PlayerSample()
         self.exit = False
+        self.backGround = pygame.Rect(0,0,1000,2000)     #背景
         self.do(screen)
 
     def do(self, screen):
@@ -28,6 +29,7 @@ class Game:
         for event in pygame.event.get():
             if event.type == KEYDOWN:
                 # キーボード入力
+                self.move()
                 pass
             elif event.type == QUIT:
                 # 終了(×ボタン)をクリック
@@ -35,7 +37,11 @@ class Game:
 
 
     def draw(self, screen):
-        screen.fill((255,255,255))
+        screen.fill((0,0,0))
+        pygame.draw.rect(screen, (255,255,255), self.backGround)   #背景を描画する
         self.player.draw(screen)
 
-    
+
+    #背景を動かす
+    def move(self):
+        self.backGround.move_ip(10, 10)
