@@ -29,9 +29,9 @@ class WallObject(pygame.sprite.Sprite):
             Pxvec = pygame.Rect(-100, -100, -100, -100)
         
         if yvecLen > 0:
-            Pyvec = pygame.Rect(xvectols, yvectols + (player.rect.height / 2), 1, yvecLen)
+            Pyvec = pygame.Rect(xvectols - 1 , yvectols + (player.rect.height / 2), 2, yvecLen)
         elif yvecLen < 0:
-            Pyvec = pygame.Rect(xvectols, yvectole - (player.rect.height / 2), 1, yvecLen * -1)
+            Pyvec = pygame.Rect(xvectols - 1, yvectole - (player.rect.height / 2), 2, yvecLen * -1)
         else:
             Pyvec = pygame.Rect(-100, -100, -100, -100)
 
