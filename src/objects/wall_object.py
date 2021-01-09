@@ -4,7 +4,7 @@ from pygame.locals import *
 class WallObject(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
         pygame.sprite.Sprite.__init__(self, self.containers)
-        self.image = pygame.image.load("image/wall.jpg").convert_alpha()
+        self.image = pygame.image.load("../image/wall.jpg").convert_alpha()
         self.width = width
         self.height = height
         self.rect = Rect(x, y, width, height)
@@ -27,7 +27,7 @@ class WallObject(pygame.sprite.Sprite):
         if xvecLen > 0:
             print("result", xvectols)
             Pxvec = pygame.Rect(xvectols + (player.rect.width / 2), yvectols, xvecLen, 1)
-            print("PxvecLeft: ", Pxvec.left, "Pxvecright: ", Pxvec.right)
+            print("PxvecLeft: ", Pxvec.left, "Pxvecright: ", Pxvec.right, "Pxvectop", Pxvec.top, "Pxvecbottom", Pxvec.bottom)
         elif xvecLen < 0:
             Pxvec = pygame.Rect((xvectole - (player.rect.width / 2)), yvectols, (xvectols - (player.rect.width / 2)), 1)
         else:
@@ -37,8 +37,8 @@ class WallObject(pygame.sprite.Sprite):
             Pyvec = pygame.Rect(xvectols, yvectols, 0, yvectole)
 
         obj_rightline = pygame.Rect(self.rect.right, self.rect.top, 1, self.rect.bottom)
-        obj_leftline = pygame.Rect(self.rect.left - 1, self.rect.top, 1, self.rect.bottom)
-        print("obj_leftline.left", obj_leftline.left, "obj_left_line.right", obj_leftline.right)
+        obj_leftline = pygame.Rect(self.rect.left, self.rect.top, 1, self.rect.height)
+        print("obj_leftline.left", obj_leftline.left, "obj_left_line.right", obj_leftline.right, "obj_leftline.top", obj_leftline.top, "obj_left_line.bottom", obj_leftline.bottom)
         obj_bottomline = pygame.Rect(self.rect.left, self.rect.bottom, self.rect.right, 0)
         obj_topline = pygame.Rect(self.rect.left, self.rect.top, self.rect.bottom, 0)
 
