@@ -5,7 +5,8 @@ import pygame
 
 class Character(pygame.sprite.Sprite):
     def __init__(self):
-        self.rect = pygame.Rect(0,0,20,60)
+        self.rect = pygame.Rect(200,200,20,60)
+        self.oldrect = self.rect.copy()
         self.direction = 0
 
     def move(self, dx, dy):
