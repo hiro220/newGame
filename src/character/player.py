@@ -12,6 +12,7 @@ class PlayerSample(Character):
         self.dy = 15
 
     def move(self):
+        self.oldrect = self.rect.copy()
         # 押されたキーを受け取る
         key = pygame.key.get_pressed()
         self.natural_down()
@@ -34,4 +35,5 @@ class PlayerSample(Character):
         width = 5
         height = 5
         pygame.draw.rect(screen, (0,0,0), pygame.Rect(x, y, width, height))
+        
 
