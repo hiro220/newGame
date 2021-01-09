@@ -12,11 +12,18 @@ class Game:
         self.clock = pygame.time.Clock()        # 時間管理用
         self.player = PlayerSample()
         self.exit = False
+
         self.wall_group = pygame.sprite.Group()      # オブジェクト[壁]のグループ 
+
         WallObject.containers = self.wall_group
-        WallObject(0, 0, 15, 600)
-        WallObject(1145, 0, 15, 600)
-        WallObject(0, 545, 1160, 15)
+
+
+        for i in range(0, 600, 100):
+            WallObject(0, i, 100, 100)
+
+        for i in range(0, 600, 100):
+            WallObject(800, i, 100, 100)
+
         self.do(screen)
 
     def do(self, screen):
@@ -31,7 +38,7 @@ class Game:
 
     def process(self):
         self.player.move()
-        self.collide_judge(self.player, self.wall_group)
+        self.wall_group.update(self.player)
 
         for event in pygame.event.get():
             if event.type == KEYDOWN:
@@ -41,19 +48,10 @@ class Game:
                 # 終了(×ボタン)をクリック
                 self.exit = True
 
-
     def draw(self, screen):
         screen.fill((255,255,255))
         self.player.draw(screen)
         self.wall_group.draw(screen)
-
-    def collide_judge(self, player, wall_group):
-        print(player.rect.left)
-        collide_list = pygame.sprite.spritecollide(player, wall_group, False)
-        if collide_list:
-            for collided_object in collide_list:
-                collided_object.update(player)
-        else:
-            print("debug")
+        
 
     

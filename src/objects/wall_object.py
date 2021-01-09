@@ -10,19 +10,51 @@ class WallObject(pygame.sprite.Sprite):
         self.rect = Rect(x, y, width, height)
         
     def update(self, player):
-        # プレイヤーが左からオブジェクトへ衝突した場合
-        if player.rect.left < self.rect.left and player.rect.right < self.rect.right:
-            player.rect.move_ip(-player.dx, 0)
+        if pygame.sprite.collide_rect(self, player):
+            self.action(player)
 
-        # プレイヤーが右からオブジェクトへ衝突した場合
-        if self.rect.left < player.rect.left and self.rect.right < player.rect.right:
+    def action(self, player):
+        print("old", player.oldrect.left, "new", player.rect.left)
+        xvectols = player.oldrect.centerx
+        xvectole = player.rect.centerx
+        print("xvectole: ", xvectole)
+        yvectols = player.oldrect.centery
+        yvectole = player.rect.centery
+
+        xvecLen = xvectole - xvectols
+        yvecLen = yvectole - yvectols
+        print("xvecLen: ", xvecLen)
+        if xvecLen > 0:
+            print("result", xvectols)
+            Pxvec = pygame.Rect(xvectols + (player.rect.width / 2), yvectols, xvecLen, 1)
+            print("PxvecLeft: ", Pxvec.left, "Pxvecright: ", Pxvec.right)
+        elif xvecLen < 0:
+            Pxvec = pygame.Rect((xvectole - (player.rect.width / 2)), yvectols, (xvectols - (player.rect.width / 2)), 1)
+        else:
+            return
+        
+        if yvecLen > 0:
+            Pyvec = pygame.Rect(xvectols, yvectols, 0, yvectole)
+
+        obj_rightline = pygame.Rect(self.rect.right, self.rect.top, 1, self.rect.bottom)
+        obj_leftline = pygame.Rect(self.rect.left - 1, self.rect.top, 1, self.rect.bottom)
+        print("obj_leftline.left", obj_leftline.left, "obj_left_line.right", obj_leftline.right)
+        obj_bottomline = pygame.Rect(self.rect.left, self.rect.bottom, self.rect.right, 0)
+        obj_topline = pygame.Rect(self.rect.left, self.rect.top, self.rect.bottom, 0)
+
+        print("Pxvecx", Pxvec.left, Pxvec.right, ": obj_rightline", obj_rightline.right)
+        if Pxvec.colliderect(obj_rightline):
             player.rect.move_ip(player.dx, 0)
+            print("left")
 
-        # プレイヤーが上からオブジェクトへ衝突した場合
-        if self.rect.top < player.rect.top and self.rect.bottom < player.rect.bottom:
-            player.rect.move_ip(0, -player.dy)
+        if Pxvec.colliderect(obj_leftline):
+            player.rect.move_ip(-player.dx, 0)
+            print("right")
 
-        # プレイヤーが下からオブジェクトへ衝突した場合
-        if player.rect.top < self.rect.top and player.rect.bottom < self.rect.bottom:
-            player.rect.move_ip(0, player.dy)
-            
+        #if Pyvec.colliderect(obj_bottomline):
+        #    player.rect.move_ip(player.dy, 0)
+        #    print("top")
+
+        #if Pyvec.colliderect(obj_topline):
+        #    player.rect.move_ip(-player.dy, 0)
+        #    print("bottom")
