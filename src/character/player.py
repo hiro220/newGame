@@ -9,7 +9,9 @@ class PlayerSample(Character):
     def __init__(self):
         super().__init__()
         self.dx = 10
-        self.dy = 15
+        self.dy = 1
+        self.jump = 60
+        self.onfloor = False
 
     def move(self):
         self.oldrect = self.rect.copy()
@@ -22,11 +24,13 @@ class PlayerSample(Character):
         if key[K_a]:                     # 矢印キー左が押されているとき(長押し)
             super().move(-self.dx, 0)
             self.direction = 0
-        if key[K_SPACE]:
-            super().move(0, -self.dy)
+        if key[K_SPACE] and self.onfloor == True:
+            super().move(0, -self.jump)
+            self.onfloor = False
 
     def natural_down(self):
-        super().move(0, self.gravity)
+        if self.onfloor == False:
+            super().move(0, self.gravity)
 
     def draw(self, screen):
         pygame.draw.rect(screen, (255,0,0), self.rect)
