@@ -41,13 +41,4 @@ class PlayerSample(Character):
         # 向きの設定
         self.image = pygame.transform.flip(self.image, (self.direction != self.pre_dire), False)
         self.pre_dire = self.direction
-
-    def draw(self, screen):
-        pygame.draw.rect(screen, (255,0,0), self.rect)
-        x = self.rect.x + (self.rect.width * self.direction or -5)
-        y = self.rect.y + self.rect.height / 4
-        width = 5
-        height = 5
-        pygame.draw.rect(screen, (0,0,0), pygame.Rect(x, y, width, height))
         
-
