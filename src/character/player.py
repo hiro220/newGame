@@ -17,6 +17,7 @@ class PlayerSample(Character):
         self.dy = 10
         self.pre_dire = 1
         self.direction = 1
+        super().move(100, 100)
 
     def move(self):
         self.oldrect = self.rect.copy()
