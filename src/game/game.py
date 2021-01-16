@@ -18,9 +18,9 @@ class Game:
         self.timers = pygame.sprite.Group()
         PlayerSample.containers = self.players
         Timer.containers = self.timers
-        self.player = PlayerSample()
-        
         WallObject.containers = self.wall_group
+
+        self.player = PlayerSample()
 
         for i in range(0, 600, 100):
             WallObject(0, i, 100, 100)
