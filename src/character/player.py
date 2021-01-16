@@ -9,8 +9,7 @@ class PlayerSample(Character):
     def __init__(self):
         super().__init__()
         self.dx = 10
-        self.dy = 1
-        self.jump = 60
+        self.jump = 70
         self.onfloor = False
 
     def move(self):
