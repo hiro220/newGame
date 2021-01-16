@@ -9,7 +9,7 @@ class EnemySample(EnemyBase):
         self.dy = 0
         super().move(100, 100)
 
-    def move(self):
+    def update(self):
         super().move(self.dx,0)
         #print("x:",self.rect.x,"y:",self.rect.y)
 

@@ -56,7 +56,7 @@ class Game:
     def process(self):
         self.timers.update()
         self.player.move()
-        self.enemies.move()      #enemyで追加したプログラム
+        self.enemies.update()      #enemyで追加したプログラム
         self.wall_group.update(self.player)
 
         for event in pygame.event.get():
