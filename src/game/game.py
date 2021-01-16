@@ -12,8 +12,6 @@ from common.timer import Timer
 class Game:
     def __init__(self, screen):
         self.clock = pygame.time.Clock()        # 時間管理用
-        self.player = PlayerSample()
-        self.enemy = EnemySample()      #enemyで追加したプログラム
         self.exit = False
 
         self.wall_group = pygame.sprite.Group()      # オブジェクト[壁]のグループ 
@@ -21,8 +19,11 @@ class Game:
         self.enemies = pygame.sprite.Group()
         self.timers = pygame.sprite.Group()
         PlayerSample.containers = self.players
-        EmenySample.containers = self.enemies
+        EnemySample.containers = self.enemies
         Timer.containers = self.timers
+
+        self.player = PlayerSample()
+        self.enemy = EnemySample()      #enemyで追加したプログラム
         
         WallObject.containers = self.wall_group
         Timer.containers = self.timers
@@ -67,11 +68,7 @@ class Game:
 
     def draw(self, screen):
         screen.fill((255,255,255))
-<<<<<<< HEAD
-        self.player.draw(screen)
-        self.enemy.draw(screen)      #enemyで追加したプログラム
-=======
         self.players.draw(screen)
->>>>>>> develop
+        self.enemies.draw(screen)      #enemyで追加したプログラム
         self.wall_group.draw(screen)
         

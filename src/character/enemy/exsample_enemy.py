@@ -4,20 +4,14 @@ from character.enemy.enemy_base import EnemyBase
 
 class EnemySample(EnemyBase):
     def __init__(self):
-        super().__init__(10,True)
+        super().__init__(10,"image/character/enemy.png")
         self.dx = 10
-        self.dy = 10
+        self.dy = 0
+        super().move(100, 100)
 
     def move(self):
         super().move(self.dx,0)
+        #print("x:",self.rect.x,"y:",self.rect.y)
 
     def enemy_rule(self):
-        print("aaaaaaaa")
-
-    def draw(self, screen):
-        pygame.draw.rect(screen, (255,0,0), self.rect)
-        x = self.rect.x + (self.rect.width * self.direction or -5)
-        y = self.rect.y + self.rect.height / 4
-        width = 5
-        height = 5
-        pygame.draw.rect(screen, (0,0,0), pygame.Rect(x, y, width, height))
+        print("未実装")
