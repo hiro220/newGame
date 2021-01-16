@@ -17,7 +17,12 @@ class Game:
         self.exit = False
 
         self.wall_group = pygame.sprite.Group()      # オブジェクト[壁]のグループ 
+        self.players = pygame.sprite.Group()
+        self.enemies = pygame.sprite.Group()
         self.timers = pygame.sprite.Group()
+        PlayerSample.containers = self.players
+        EmenySample.containers = self.enemies
+        Timer.containers = self.timers
         
         WallObject.containers = self.wall_group
         Timer.containers = self.timers
@@ -62,7 +67,11 @@ class Game:
 
     def draw(self, screen):
         screen.fill((255,255,255))
+<<<<<<< HEAD
         self.player.draw(screen)
         self.enemy.draw(screen)      #enemyで追加したプログラム
+=======
+        self.players.draw(screen)
+>>>>>>> develop
         self.wall_group.draw(screen)
         
