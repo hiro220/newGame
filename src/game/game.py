@@ -21,7 +21,6 @@ class Game:
         self.player = PlayerSample()
         
         WallObject.containers = self.wall_group
-        Timer.containers = self.timers
 
         for i in range(0, 600, 100):
             WallObject(0, i, 100, 100)
