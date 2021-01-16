@@ -1,19 +1,19 @@
 import pygame
 from pygame.locals import *
-from character.enemy.exsample_enemy import EnemyBase
+from character.enemy.enemy_base import EnemyBase
 
-class PlayerSample(Character):
+class EnemySample(EnemyBase):
     def __init__(self):
-        super().__init__()
+        super().__init__(10,True)
         self.dx = 10
         self.dy = 10
 
     def move(self):
-    
-    def update(self):
+        super().move(self.dx,0)
 
     def enemy_rule(self):
-        
+        print("aaaaaaaa")
+
     def draw(self, screen):
         pygame.draw.rect(screen, (255,0,0), self.rect)
         x = self.rect.x + (self.rect.width * self.direction or -5)

@@ -5,6 +5,7 @@ import pygame
 from pygame.locals import *
 
 from character.player import PlayerSample
+from character.enemy.exsample_enemy import EnemySample     #enemyで追加したプログラム
 from objects.wall_object import WallObject
 from common.timer import Timer
 
@@ -12,7 +13,9 @@ class Game:
     def __init__(self, screen):
         self.clock = pygame.time.Clock()        # 時間管理用
         self.player = PlayerSample()
+        self.enemy = EnemySample()      #enemyで追加したプログラム
         self.exit = False
+
         self.wall_group = pygame.sprite.Group()      # オブジェクト[壁]のグループ 
         self.timers = pygame.sprite.Group()
         
@@ -46,6 +49,7 @@ class Game:
     def process(self):
         self.timers.update()
         self.player.move()
+        self.enemy.move()      #enemyで追加したプログラム
         self.wall_group.update(self.player)
 
         for event in pygame.event.get():
@@ -59,5 +63,6 @@ class Game:
     def draw(self, screen):
         screen.fill((255,255,255))
         self.player.draw(screen)
+        self.enemy.draw(screen)      #enemyで追加したプログラム
         self.wall_group.draw(screen)
         
