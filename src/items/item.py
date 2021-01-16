@@ -15,8 +15,14 @@ class Item(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.move_ip(x, y)
 
-    def update(self):
-        pass
+    def update(self, players):
+        """プレイヤーとの当たり判定を求め、アイテムに応じた効果を付与する"""
+        collide_list = pygame.sprite.spritecollide(self, players, False)
+        if collide_list:
+            self.kill()
+            for player in collide_list:
+                # アイテムと接触したプレイヤーに効果を付与
+                self.effect(player)
 
     def effct(self):
         pass

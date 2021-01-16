@@ -54,6 +54,7 @@ class Game:
         self.timers.update()
         self.player.move()
         self.wall_group.update(self.player)
+        self.items.update(self.players)
 
         for event in pygame.event.get():
             if event.type == KEYDOWN:
