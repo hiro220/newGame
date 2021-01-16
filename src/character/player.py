@@ -30,13 +30,5 @@ class PlayerSample(Character):
     def natural_down(self):
         if self.onfloor == False:
             super().move(0, self.gravity)
-
-    def draw(self, screen):
-        pygame.draw.rect(screen, (255,0,0), self.rect)
-        x = self.rect.x + (self.rect.width * self.direction or -5)
-        y = self.rect.y + self.rect.height / 4
-        width = 5
-        height = 5
-        pygame.draw.rect(screen, (0,0,0), pygame.Rect(x, y, width, height))
         
 
