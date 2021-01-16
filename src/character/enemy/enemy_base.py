@@ -13,8 +13,8 @@ class EnemyBase(Character):
         self.enemy_hp = hp
         self.gravity = gravity
 
-    def hit(self,damege):
-        self.hp -= damege
+    def hit(self,damage):
+        self.hp -= damage
 
     
         
