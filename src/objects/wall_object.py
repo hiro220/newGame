@@ -36,7 +36,16 @@ class WallObject(pygame.sprite.Sprite):
             Pyvec = pygame.Rect(-100, -100, -100, -100)
 
         if Pxvec.colliderect(self.rect):
+            if xvecLen > 0:
+                xvecLen = xvecLen - (self.rect.left - (xvectols + (player.rect.width / 2)))
+            else:
+                xvecLen = xvecLen - (self.rect.right - (xvectols - (player.rect.width / 2)))
             player.rect.move_ip(-xvecLen, 0)
 
         if Pyvec.colliderect(self.rect):
+            if yvecLen > 0:
+                yvecLen = yvecLen - (self.rect.top - (yvectols + (player.rect.height / 2)))
+            else:
+                yvecLen = yvecLen - (self.rect.bottom - (yvectols - (player.rect.height / 2)))
             player.rect.move_ip(0, -yvecLen)
+
