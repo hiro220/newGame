@@ -9,7 +9,7 @@ class PlayerSample(Character):
     def __init__(self):
         super().__init__()
         self.dx = 10
-        self.jump = 70
+        self.dy = 60
         self.onfloor = False
 
     def move(self):
@@ -24,7 +24,7 @@ class PlayerSample(Character):
             super().move(-self.dx, 0)
             self.direction = 0
         if key[K_SPACE] and self.onfloor == True:
-            super().move(0, -self.jump)
+            super().move(0, -self.dy)
             self.onfloor = False
 
     def natural_down(self):
