@@ -7,6 +7,7 @@ from pygame.locals import *
 from character.player import PlayerSample
 from objects.wall_object import WallObject
 from common.timer import Timer
+from items.item import Item
 
 class Game:
     def __init__(self, screen):
@@ -16,9 +17,12 @@ class Game:
         self.wall_group = pygame.sprite.Group()      # オブジェクト[壁]のグループ 
         self.players = pygame.sprite.Group()
         self.timers = pygame.sprite.Group()
+        self.items = pygame.sprite.Group()
+
         PlayerSample.containers = self.players
         Timer.containers = self.timers
         WallObject.containers = self.wall_group
+        Item.containers = self.items
 
         self.player = PlayerSample()
 
