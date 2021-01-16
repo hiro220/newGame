@@ -9,6 +9,7 @@ class Character(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.oldrect = self.rect.copy()
         self.direction = 0
+        self.gravity = 5.0
 
     def move(self, dx, dy):
         # 引数で指定した分だけ移動する
