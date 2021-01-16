@@ -5,7 +5,8 @@ import pygame
 from pygame.locals import *
 
 from character.player import PlayerSample
-from character.enemy.exsample_enemy import EnemySample     #enemyで追加したプログラム
+from character.enemy.enemy_base import EnemyBase     #enemyで追加したプログラム
+from character.enemy.exsample_enemy import EnemySample   #enemyで追加したプログラム
 from objects.wall_object import WallObject
 from common.timer import Timer
 
@@ -19,7 +20,7 @@ class Game:
         self.enemies = pygame.sprite.Group()
         self.timers = pygame.sprite.Group()
         PlayerSample.containers = self.players
-        EnemySample.containers = self.enemies
+        EnemyBase.containers = self.enemies
         Timer.containers = self.timers
 
         self.player = PlayerSample()
@@ -55,7 +56,7 @@ class Game:
     def process(self):
         self.timers.update()
         self.player.move()
-        self.enemy.move()      #enemyで追加したプログラム
+        self.enemies.move()      #enemyで追加したプログラム
         self.wall_group.update(self.player)
 
         for event in pygame.event.get():
