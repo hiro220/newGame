@@ -7,6 +7,7 @@ class Character(pygame.sprite.Sprite):
     def __init__(self, img_path):
         self.image = pygame.image.load(img_path).convert_alpha()
         self.rect = self.image.get_rect()
+        self.oldrect = self.rect.copy()
         self.direction = 0
 
     def move(self, dx, dy):
