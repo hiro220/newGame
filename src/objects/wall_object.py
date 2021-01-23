@@ -40,3 +40,4 @@ class WallObject(pygame.sprite.Sprite):
 
         if Pyvec.colliderect(self.rect):
             player.rect.move_ip(0, -yvecLen)
+            player.onfloor = True
