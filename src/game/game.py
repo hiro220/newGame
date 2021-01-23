@@ -57,7 +57,7 @@ class Game:
         self.timers.update()
         self.player.move()
         self.enemies.update()      #enemyで追加したプログラム
-        self.wall_group.update(self.player)
+        self.wall_group.update(self.player, self.enemies)
 
         for event in pygame.event.get():
             if event.type == KEYDOWN:

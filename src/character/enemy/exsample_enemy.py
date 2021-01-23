@@ -10,6 +10,7 @@ class EnemySample(EnemyBase):
         super().move(100, 100)
 
     def update(self):
+        self.oldrect = self.rect.copy()
         super().move(self.dx,0)
         #print("x:",self.rect.x,"y:",self.rect.y)
 

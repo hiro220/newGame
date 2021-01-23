@@ -14,6 +14,7 @@ class EnemyBase(Character):
         self.image = pygame.transform.scale(self.image, (80, 100))
         self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
+        self.oldrect = self.rect.copy()
 
         # 移動速度
         self.dx = 10
