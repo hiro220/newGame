@@ -52,6 +52,8 @@ class WallObject(pygame.sprite.Sprite):
             else:
                 yvecLen = yvecLen - (self.rect.bottom - (yvectols - (object.rect.height / 2)))
             object.rect.move_ip(0, -yvecLen)
+            object.rect.move_ip(0, -yvecLen)
+            object.onfloor = True
 
 class MovingFloor(WallObject):
     def __init__(self, x, y, width, height):
