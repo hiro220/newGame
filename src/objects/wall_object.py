@@ -4,7 +4,7 @@ from pygame.locals import *
 class WallObject(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
         pygame.sprite.Sprite.__init__(self, self.containers)
-        self.image = pygame.image.load("image/wall.jpg").convert_alpha()
+        self.image = pygame.image.load("image/object/wall.jpg").convert_alpha()
         self.width = width
         self.height = height
         self.rect = Rect(x, y, width, height)
@@ -53,3 +53,15 @@ class WallObject(pygame.sprite.Sprite):
                 yvecLen = yvecLen - (self.rect.bottom - (yvectols - (object.rect.height / 2)))
             object.rect.move_ip(0, -yvecLen)
 
+class MovingFloor(WallObject):
+    def __init__(self, x, y, width, height):
+        super().__init__(x, y, width, height)
+        self.dx = 5
+        self.dy = 0
+    
+    def update(self, player, enemies):
+        self.move(self.dx, self.dy)
+        super().update(player, enemies)
+    
+    def move(self, dx, dy):
+        self.rect.move_ip(dx, dy)
