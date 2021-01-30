@@ -10,6 +10,7 @@ from character.enemy.exsample_enemy import EnemySample   #enemyで追加した�
 from objects.wall_object import WallObject
 from common.timer import Timer
 from items.item import Item
+from items.sample import SampleItem
 
 class Game:
     def __init__(self, screen):
@@ -25,15 +26,12 @@ class Game:
         PlayerSample.containers = self.players
         EnemyBase.containers = self.enemies
         Timer.containers = self.timers
-
-        self.player = PlayerSample()
-        self.enemy = EnemySample()      #enemyで追加したプログラム
-        
         WallObject.containers = self.wall_group
         Item.containers = self.items
 
         self.player = PlayerSample()
-
+        self.enemy = EnemySample()      #enemyで追加したプログラム
+        
         for i in range(0, 600, 100):
             WallObject(0, i, 100, 100)
 
@@ -45,6 +43,8 @@ class Game:
 
         for i in range(0, 1200, 100):
             WallObject(i, 0, 100, 100)
+
+        SampleItem(700,430)
 
         self.do(screen)
 
@@ -78,4 +78,5 @@ class Game:
         self.players.draw(screen)
         self.enemies.draw(screen)      #enemyで追加したプログラム
         self.wall_group.draw(screen)
+        self.items.draw(screen)
         
