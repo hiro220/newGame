@@ -18,6 +18,7 @@ class PlayerSample(Character):
         self.dx = 10
         self.dy = 60
         self.onfloor = False
+        self.start_time = pygame.time.get_ticks()
         # 向き
         self.pre_dire = 1
         self.direction = 1
@@ -36,15 +37,31 @@ class PlayerSample(Character):
         if key[K_a]:                     # 矢印キー左が押されているとき(長押し)
             super().move(-self.dx, 0)
             self.direction = 0
-        if key[K_SPACE] and self.onfloor == True:
-            super().move(0, -self.dy)
-            self.onfloor = False
+
+        #スペースが押された時と離された時の時間の差でジャンプ
+        #多分このfor文のせいで×押してもゲームが終了しない
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                if event.key == K_SPACE:
+                    self.start_time = pygame.time.get_ticks()
+            if event.type == KEYUP:
+                if event.key == K_SPACE:
+                    end_time = pygame.time.get_ticks() - self.start_time
+                    self.jump(end_time)
+                               
         
          # 向きの設定
         self.image = pygame.transform.flip(self.image, (self.direction != self.pre_dire), False)
         self.pre_dire = self.direction
 
+    def jump(self, time=0):
+        if self.onfloor:
+            if time <= 400:
+                super().move(0, -self.dy)
+            else:
+                super().move(0, -self.dy*2)
+            self.onfloor = False 
+    
     def natural_down(self):
-        if self.onfloor == False:
-            super().move(0, self.gravity)
+        super().move(0, self.gravity)
 
