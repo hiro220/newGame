@@ -45,6 +45,5 @@ class PlayerSample(Character):
         self.pre_dire = self.direction
 
     def natural_down(self):
-        if self.onfloor == False:
-            super().move(0, self.gravity)
+        super().move(0, self.gravity)
 

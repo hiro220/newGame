@@ -7,7 +7,7 @@ from pygame.locals import *
 from character.player import PlayerSample
 from character.enemy.enemy_base import EnemyBase     #enemyで追加したプログラム
 from character.enemy.exsample_enemy import EnemySample   #enemyで追加したプログラム
-from objects.wall_object import WallObject
+from objects.wall_object import WallObject, MovingFloor
 from common.timer import Timer
 
 class Game:
@@ -41,6 +41,8 @@ class Game:
         for i in range(0, 1200, 100):
             WallObject(i, 0, 100, 100)
 
+        MovingFloor(0, 400, 100, 100)
+
         self.do(screen)
 
     def do(self, screen):
@@ -57,7 +59,7 @@ class Game:
         self.timers.update()
         self.player.move()
         self.enemies.update()      #enemyで追加したプログラム
-        self.wall_group.update(self.player)
+        self.wall_group.update(self.player, self.enemies)
 
         for event in pygame.event.get():
             if event.type == KEYDOWN:
