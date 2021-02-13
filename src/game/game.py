@@ -7,7 +7,7 @@ from pygame.locals import *
 from character.player import PlayerSample
 from character.enemy.enemy_base import EnemyBase     #enemyで追加したプログラム
 from character.enemy.exsample_enemy import EnemySample   #enemyで追加したプログラム
-from objects.wall_object import WallObject
+from objects.wall_object import WallObject, MovingFloor
 from common.timer import Timer
 from items.item import Item
 from items.sample import SampleItem
@@ -45,6 +45,7 @@ class Game:
             WallObject(i, 0, 100, 100)
 
         SampleItem(700,430)
+        MovingFloor(0, 400, 100, 100)
 
         self.do(screen)
 
@@ -62,7 +63,7 @@ class Game:
         self.timers.update()
         self.player.move()
         self.enemies.update()      #enemyで追加したプログラム
-        self.wall_group.update(self.player)
+        self.wall_group.update(self.player, self.enemies)
         self.items.update(self.players)
 
         for event in pygame.event.get():
