@@ -27,7 +27,7 @@ class PlayerSample(Character):
         self.jump_count = 0
         pygame.key.set_repeat(5, 10)
 
-    def move(self):
+    def move(self, event_list):
         self.oldrect = self.rect.copy()
         # 押されたキーを受け取る
         self.is_flip = False
@@ -40,7 +40,7 @@ class PlayerSample(Character):
             super().move(-self.dx, 0)
             self.direction = 0
 
-        for event in pygame.event.get():
+        for event in event_list:
             if event.type == KEYDOWN:
                 if event.key == K_SPACE:
                     self.jump_count += 1
