@@ -56,7 +56,7 @@ class PlayerSample(Character):
         self.pre_dire = self.direction
 
     def jump(self):
-        if self.onfloor and self.jump_count < 50:
+        if self.onfloor and self.jump_count < 20:
             super().move(0, -self.dy)
     
     def natural_down(self):
