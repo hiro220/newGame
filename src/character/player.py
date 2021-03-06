@@ -24,6 +24,7 @@ class PlayerSample(Character):
         # 初期位置
         super().move(100, 100)
 
+        self.jump_count = 0
         pygame.key.set_repeat(5, 10)
 
     def move(self):
@@ -39,15 +40,15 @@ class PlayerSample(Character):
             super().move(-self.dx, 0)
             self.direction = 0
 
-        #スペースが押された時と離された時の時間の差でジャンプ
-        #多分このfor文のせいで×押してもゲームが終了しない
         for event in pygame.event.get():
             if event.type == KEYDOWN:
                 if event.key == K_SPACE:
+                    self.jump_count += 1
                     self.jump()
             if event.type == KEYUP:
                 if event.key == K_SPACE:
                     self.onfloor = False
+                    self.jump_count = 0
                                
         
          # 向きの設定
@@ -55,7 +56,7 @@ class PlayerSample(Character):
         self.pre_dire = self.direction
 
     def jump(self):
-        if self.onfloor:
+        if self.onfloor and self.jump_count < 50:
             super().move(0, -self.dy)
     
     def natural_down(self):
