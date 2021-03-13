@@ -57,11 +57,12 @@ class Game:
 
     def process(self):
         self.timers.update()
-        self.player.move()
+        event_list = pygame.event.get()     # pygame.event.get()は取得したイベントをキューから削除する。
+        self.player.move(event_list)
         self.enemies.update()      #enemyで追加したプログラム
         self.wall_group.update(self.player, self.enemies)
 
-        for event in pygame.event.get():
+        for event in event_list:
             if event.type == KEYDOWN:
                 # キーボード入力
                 pass
