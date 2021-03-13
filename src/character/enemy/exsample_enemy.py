@@ -4,16 +4,24 @@ from character.enemy.enemy_base import EnemyBase
 
 class EnemySample(EnemyBase):
     def __init__(self):
-        super().__init__(10,"image/character/enemy.png",4)
-        self.dx = 10
+        super().__init__(10,"image/character/enemy.png",1)
+        self.dx = 0
         self.dy = 0
-        super().move(100, 100)
+        super().move(200, 100)
+        self.rule_flag = 0
 
     def update(self):
-        super().update()
         self.oldrect = self.rect.copy()
-        super().move(0,0)
+        super().update()
+
+        self.enemy_rule()
+        super().move(self.dx,self.dy)
         #print("x:",self.rect.x,"y:",self.rect.y)
 
     def enemy_rule(self):
-        print("未実装")
+        self.rule_flag += 1
+        if self.rule_flag >= 60 and self.rule_flag < 180:
+            self.dx = 3
+        elif self.rule_flag >= 180:
+            self.dx = 6
+            
