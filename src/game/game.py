@@ -5,20 +5,26 @@ import pygame
 from pygame.locals import *
 
 from character.player import PlayerSample
-from objects.wall_object import WallObject
+from character.enemy.enemy_base import EnemyBase     #enemyで追加したプログラム
+from character.enemy.exsample_enemy import EnemySample   #enemyで追加したプログラム
+from objects.wall_object import WallObject, MovingFloor
 from common.timer import Timer
 
 class Game:
     def __init__(self, screen):
         self.clock = pygame.time.Clock()        # 時間管理用
         self.exit = False
-        
+
         self.wall_group = pygame.sprite.Group()      # オブジェクト[壁]のグループ 
         self.players = pygame.sprite.Group()
+        self.enemies = pygame.sprite.Group()
         self.timers = pygame.sprite.Group()
         PlayerSample.containers = self.players
+        EnemyBase.containers = self.enemies
         Timer.containers = self.timers
+
         self.player = PlayerSample()
+        self.enemy = EnemySample()      #enemyで追加したプログラム
         
         WallObject.containers = self.wall_group
         Timer.containers = self.timers
@@ -34,6 +40,8 @@ class Game:
 
         for i in range(0, 1200, 100):
             WallObject(i, 0, 100, 100)
+
+        MovingFloor(0, 400, 100, 100)
 
         self.do(screen)
 
@@ -51,7 +59,8 @@ class Game:
         self.timers.update()
         event_list = pygame.event.get()     # pygame.event.get()は取得したイベントをキューから削除する。
         self.player.move(event_list)
-        self.wall_group.update(self.player)
+        self.enemies.update()      #enemyで追加したプログラム
+        self.wall_group.update(self.player, self.enemies)
 
         for event in event_list:
             if event.type == KEYDOWN:
@@ -64,5 +73,6 @@ class Game:
     def draw(self, screen):
         screen.fill((255,255,255))
         self.players.draw(screen)
+        self.enemies.draw(screen)      #enemyで追加したプログラム
         self.wall_group.draw(screen)
         
