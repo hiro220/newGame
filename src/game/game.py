@@ -5,12 +5,44 @@ import pygame
 from pygame.locals import *
 
 from character.player import PlayerSample
+from character.enemy.enemy_base import EnemyBase     #enemyで追加したプログラム
+from character.enemy.exsample_enemy import EnemySample   #enemyで追加したプログラム
+from objects.wall_object import WallObject, MovingFloor
+from common.timer import Timer
 
 class Game:
     def __init__(self, screen):
         self.clock = pygame.time.Clock()        # 時間管理用
-        self.player = PlayerSample()
         self.exit = False
+
+        self.wall_group = pygame.sprite.Group()      # オブジェクト[壁]のグループ 
+        self.players = pygame.sprite.Group()
+        self.enemies = pygame.sprite.Group()
+        self.timers = pygame.sprite.Group()
+        PlayerSample.containers = self.players
+        EnemyBase.containers = self.enemies
+        Timer.containers = self.timers
+
+        self.player = PlayerSample()
+        self.enemy = EnemySample()      #enemyで追加したプログラム
+        
+        WallObject.containers = self.wall_group
+        Timer.containers = self.timers
+
+        for i in range(0, 600, 100):
+            WallObject(0, i, 100, 100)
+
+        for i in range(0, 600, 100):
+            WallObject(1060, i, 100, 100)
+
+        for i in range(0, 1200, 100):
+            WallObject(i, 500, 100, 100)
+
+        for i in range(0, 1200, 100):
+            WallObject(i, 0, 100, 100)
+
+        MovingFloor(0, 400, 100, 100)
+
         self.do(screen)
 
     def do(self, screen):
@@ -24,7 +56,11 @@ class Game:
                 break
 
     def process(self):
+        self.timers.update()
         self.player.move()
+        self.enemies.update()      #enemyで追加したプログラム
+        self.wall_group.update(self.player, self.enemies)
+
         for event in pygame.event.get():
             if event.type == KEYDOWN:
                 # キーボード入力
@@ -33,9 +69,9 @@ class Game:
                 # 終了(×ボタン)をクリック
                 self.exit = True
 
-
     def draw(self, screen):
         screen.fill((255,255,255))
-        self.player.draw(screen)
-
-    
+        self.players.draw(screen)
+        self.enemies.draw(screen)      #enemyで追加したプログラム
+        self.wall_group.draw(screen)
+        
