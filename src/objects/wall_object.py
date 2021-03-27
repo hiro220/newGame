@@ -64,7 +64,6 @@ class MovingFloor(WallObject):
     def update(self, player, enemies):
         self.move(self.dx, self.dy)
         if pygame.sprite.collide_rect(self, player):
-            print("aaa")
             self.extrude_object(player)
         collided_enemy = pygame.sprite.spritecollide(self, enemies, False)
         if collided_enemy:
@@ -74,25 +73,25 @@ class MovingFloor(WallObject):
         super().update(player, enemies)
     
     def extrude_object(self, object):
-        xvectols = object.oldrect.centerx
-        xvectole = object.rect.centerx
-        yvectols = object.oldrect.centery
-        yvectole = object.rect.centery
+        xvectols = self.oldrect.centerx
+        xvectole = self.rect.centerx
+        yvectols = self.oldrect.centery
+        yvectole = self.rect.centery
 
         xvecLen = xvectole - xvectols
         if xvecLen > 0:
             Pxvec = pygame.Rect(xvectols + (self.rect.width / 2), yvectols - (self.rect.height / 2), xvecLen, self.rect.height)
         elif xvecLen < 0:
-            Pxvec = pygame.Rect(xvectole - (self.rect.width / 2), yvectols - (self.rect.height / 2), xvecLen * -1, self.rect.height)
+            Pxvec = pygame.Rect(xvectole - (self.rect.width / 2), yvectols - (object.rect.height / 2), xvecLen * -1, self.rect.height)
         else:
             Pxvec = pygame.Rect(-100, -100, -100, -100)
 
         if Pxvec.colliderect(object):
             if xvecLen > 0:
-                xvecLen = self.rect.right - object.left
+                xvecLen = self.rect.right - object.rect.left
             else:
-                xvecLen = self.rect.left - object.right
-            object.rect.move_ip(10, 0)
+                xvecLen = self.rect.left - object.rect.right
+            object.rect.move_ip(xvecLen, 0)
 
     def move(self, dx, dy):
         self.oldrect = self.rect.copy()
