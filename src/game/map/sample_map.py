@@ -5,7 +5,7 @@ from include.game_object import *
 class SampleMap(MapBase):
     def __init__(self, screen):
         super().__init__(screen)
-        # 画面内に収まるグリッドのサイズ(580, 30)
+        # 画面内に収まるグリッドのサイズ(58, 30)
         self.map_size = (4000, 100)
         
         # マップに配置する
