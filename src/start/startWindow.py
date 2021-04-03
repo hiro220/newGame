@@ -5,7 +5,7 @@ import pygame
 from pygame.locals import *
 import os
 
-from game.game import Game
+from game.map.sample_map import SampleMap
 
 class StartWindow:
     def __init__(self, screen):
@@ -55,6 +55,6 @@ class StartWindow:
         
     def keyReturn(self):
         if self.select == 0:
-            Game(self.screen)
+            SampleMap(self.screen)
         elif self.select == 1:
             self.exit = True

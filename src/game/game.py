@@ -14,6 +14,7 @@ class Game:
     def __init__(self, screen):
         self.clock = pygame.time.Clock()        # 時間管理用
         self.exit = False
+        self.screen = screen
 
         self.wall_group = pygame.sprite.Group()      # オブジェクト[壁]のグループ 
         self.players = pygame.sprite.Group()
@@ -29,27 +30,11 @@ class Game:
         WallObject.containers = self.wall_group
         Timer.containers = self.timers
 
-        for i in range(0, 600, 100):
-            WallObject(0, i, 100, 100)
-
-        for i in range(0, 600, 100):
-            WallObject(1060, i, 100, 100)
-
-        for i in range(0, 1200, 100):
-            WallObject(i, 500, 100, 100)
-
-        for i in range(0, 1200, 100):
-            WallObject(i, 0, 100, 100)
-
-        MovingFloor(0, 400, 100, 100)
-
-        self.do(screen)
-
-    def do(self, screen):
+    def do(self):
         while True:
             self.clock.tick(30)         # フレームレート(30fps)
             self.process()
-            self.draw(screen)
+            self.draw(self.screen)
             pygame.display.update()
 
             if self.exit:
