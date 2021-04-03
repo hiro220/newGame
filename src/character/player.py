@@ -5,13 +5,15 @@ import pygame
 from pygame.locals import *
 from character.character import Character
 
+from include.map_config import *
+
 class PlayerSample(Character):
     def __init__(self):
         super().__init__("image/character/player.png")
         pygame.sprite.Sprite.__init__(self, self.containers)
         # 画像と当たり判定の設定
         self.base_image = self.image
-        self.image = pygame.transform.scale(self.image, (80, 100))
+        self.image = pygame.transform.scale(self.image, (GRID_SIZE, GRID_SIZE * 3 // 2))
         self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
         # 移動速度
