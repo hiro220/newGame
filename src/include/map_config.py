@@ -1,4 +1,4 @@
 
-GRID_SIZE = 20
+GRID_SIZE = 40
 
 NONE = None
