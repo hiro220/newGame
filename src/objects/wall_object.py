@@ -4,50 +4,66 @@ from pygame.locals import *
 class WallObject(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
         pygame.sprite.Sprite.__init__(self, self.containers)
-        self.image = pygame.image.load("C:/Python/newGame/image/wall.jpg").convert_alpha()
+
+        self.image = pygame.image.load("image/object/wall.jpg").convert_alpha()
         self.width = width
         self.height = height
         self.rect = Rect(x, y, width, height)
         
-    def update(self, player):
+    def update(self, player, enemies):
         if pygame.sprite.collide_rect(self, player):
             self.action(player)
+        collided_enemy = pygame.sprite.spritecollide(self, enemies, False)
+        if collided_enemy:
+            for enemy in collided_enemy:
+                self.action(enemy)
 
-    def action(self, player):
-        xvectols = player.oldrect.centerx
-        xvectole = player.rect.centerx
-        yvectols = player.oldrect.centery
-        yvectole = player.rect.centery
+    def action(self, object):
+        xvectols = object.oldrect.centerx
+        xvectole = object.rect.centerx
+        yvectols = object.oldrect.centery
+        yvectole = object.rect.centery
 
         xvecLen = xvectole - xvectols
         yvecLen = yvectole - yvectols
         if xvecLen > 0:
-            Pxvec = pygame.Rect(xvectols + (player.rect.width / 2), yvectols, xvecLen, 1)
+            Pxvec = pygame.Rect(xvectols + (object.rect.width / 2), yvectols - (object.rect.height / 2), xvecLen, object.rect.height)
         elif xvecLen < 0:
-            Pxvec = pygame.Rect(xvectole - (player.rect.width / 2), yvectols, xvecLen * -1, 1)
+            Pxvec = pygame.Rect(xvectole - (object.rect.width / 2), yvectols - (object.rect.height / 2), xvecLen * -1, object.rect.height)
         else:
             Pxvec = pygame.Rect(-100, -100, -100, -100)
         
         if yvecLen > 0:
-            Pyvec = pygame.Rect(xvectols, yvectols + (player.rect.height / 2), 1, yvecLen)
+            Pyvec = pygame.Rect(xvectols - (object.rect.width / 2) , yvectols + (object.rect.height / 2), object.rect.width, yvecLen)
         elif yvecLen < 0:
-            Pyvec = pygame.Rect(xvectols, yvectole - (player.rect.height / 2), 1, yvecLen * -1)
+            Pyvec = pygame.Rect(xvectols - (object.rect.width / 2), yvectole - (object.rect.height / 2), object.rect.width, yvecLen * -1)
         else:
             Pyvec = pygame.Rect(-100, -100, -100, -100)
 
-        obj_rightline = pygame.Rect(self.rect.right - 1, self.rect.top, 1, self.rect.height)
-        obj_leftline = pygame.Rect(self.rect.left, self.rect.top, 1, self.rect.height)
-        obj_bottomline = pygame.Rect(self.rect.left, self.rect.bottom - 1, self.rect.width, 1)
-        obj_topline = pygame.Rect(self.rect.left, self.rect.top, self.rect.width, 1)
+        if Pxvec.colliderect(self.rect):
+            if xvecLen > 0:
+                xvecLen = xvecLen - (self.rect.left - (xvectols + (object.rect.width / 2)))
+            else:
+                xvecLen = xvecLen - (self.rect.right - (xvectols - (object.rect.width / 2)))
+            object.rect.move_ip(-xvecLen, 0)
 
-        if Pxvec.colliderect(obj_rightline):
-            player.rect.move_ip(player.dx, 0)
+        if Pyvec.colliderect(self.rect):
+            if yvecLen > 0:
+                yvecLen = yvecLen - (self.rect.top - (yvectols + (object.rect.height / 2)))
+            else:
+                yvecLen = yvecLen - (self.rect.bottom - (yvectols - (object.rect.height / 2)))
+            object.rect.move_ip(0, -yvecLen)
+            object.onfloor = True
 
-        if Pxvec.colliderect(obj_leftline):
-            player.rect.move_ip(-player.dx, 0)
-
-        if Pyvec.colliderect(obj_bottomline):
-            player.rect.move_ip(0, player.dy)
-
-        if Pyvec.colliderect(obj_topline):
-            player.rect.move_ip(0, -player.dy)
+class MovingFloor(WallObject):
+    def __init__(self, x, y, width, height):
+        super().__init__(x, y, width, height)
+        self.dx = 5
+        self.dy = 0
+    
+    def update(self, player, enemies):
+        self.move(self.dx, self.dy)
+        super().update(player, enemies)
+    
+    def move(self, dx, dy):
+        self.rect.move_ip(dx, dy)

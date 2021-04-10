@@ -5,41 +5,38 @@ import pygame
 from pygame.locals import *
 
 from character.player import PlayerSample
-from objects.wall_object import WallObject
+from character.enemy.enemy_base import EnemyBase     #enemyで追加したプログラム
+from character.enemy.exsample_enemy import EnemySample   #enemyで追加したプログラム
+from objects.wall_object import WallObject, MovingFloor
 from common.timer import Timer
 
 class Game:
     def __init__(self, screen):
         self.clock = pygame.time.Clock()        # 時間管理用
-        self.player = PlayerSample()
         self.exit = False
-        self.backGround = pygame.Rect(0,0,1000,2000)     #背景
-        self.wall_group = pygame.sprite.Group()      # オブジェクト[壁]のグループ 
-        self.timers = pygame.sprite.Group()
-        self.camera = Camera()
+        self.screen = screen
 
+        self.wall_group = pygame.sprite.Group()      # オブジェクト[壁]のグループ 
+        self.players = pygame.sprite.Group()
+        self.enemies = pygame.sprite.Group()
+        self.timers = pygame.sprite.Group()
+        #self.camera = Camera()
+
+        PlayerSample.containers = self.players
+        EnemyBase.containers = self.enemies
+        Timer.containers = self.timers
+
+        self.player = PlayerSample()
+        self.enemy = EnemySample()      #enemyで追加したプログラム
+        
         WallObject.containers = self.wall_group
         Timer.containers = self.timers
 
-        for i in range(0, 600, 100):
-            WallObject(0, i, 100, 100)
-
-        for i in range(0, 600, 100):
-            WallObject(1060, i, 100, 100)
-
-        for i in range(0, 1200, 100):
-            WallObject(i, 500, 100, 100)
-
-        for i in range(0, 1200, 100):
-            WallObject(i, 0, 100, 100)
-
-        self.do(screen)
-
-    def do(self, screen):
+    def do(self):
         while True:
             self.clock.tick(30)         # フレームレート(30fps)
             self.process()
-            self.draw(screen)
+            self.draw(self.screen)
             pygame.display.update()
 
             if self.exit:
@@ -47,11 +44,12 @@ class Game:
 
     def process(self):
         self.timers.update()
-        self.backxy = self.player.move()
-        print(self.backxy)
-        self.wall_group.update(self.player)
+        event_list = pygame.event.get()     # pygame.event.get()は取得したイベントをキューから削除する。
+        self.player.move(event_list)
+        self.enemies.update()      #enemyで追加したプログラム
+        self.wall_group.update(self.player, self.enemies)
 
-        for event in pygame.event.get():
+        for event in event_list:
             if event.type == KEYDOWN:
                 # キーボード入力
                 self.move()
@@ -61,14 +59,8 @@ class Game:
                 self.exit = True
 
     def draw(self, screen):
-        screen.fill((0,0,0))
-        pygame.draw.rect(screen, (255,255,255), self.backGround)   #背景を描画する
-        self.player.draw(screen)
-        #self.wall_group.draw(screen)
-
-
-    #背景を動かす
-    def move(self):
-        print(1)
-        #print(self.backxy)
-        #self.backGround.move_ip(self.backxy[0], self.backxy[1])
+        screen.fill((255,255,255))
+        self.players.draw(screen)
+        self.enemies.draw(screen)      #enemyで追加したプログラム
+        self.wall_group.draw(screen)
+        

@@ -4,10 +4,12 @@
 import pygame
 
 class Character(pygame.sprite.Sprite):
-    def __init__(self):
-        self.rect = pygame.Rect(200,200,20,60)
+    def __init__(self, img_path):
+        self.image = pygame.image.load(img_path).convert_alpha()
+        self.rect = self.image.get_rect()
         self.oldrect = self.rect.copy()
         self.direction = 0
+        self.gravity = 5.0
 
     def move(self, dx, dy):
         # 引数で指定した分だけ移動する
