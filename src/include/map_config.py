@@ -1,0 +1,4 @@
+
+GRID_SIZE = 40
+
+NONE = None

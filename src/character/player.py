@@ -16,7 +16,7 @@ class PlayerSample(Character):
         self.rect = self.image.get_rect()
         # 移動速度
         self.dx = 10
-        self.dy = 60
+        self.dy = 10
         self.onfloor = False
         # 向き
         self.pre_dire = 1
@@ -24,7 +24,10 @@ class PlayerSample(Character):
         # 初期位置
         super().move(100, 100)
 
-    def move(self):
+        self.jump_count = 0
+        pygame.key.set_repeat(5, 10)
+
+    def move(self, event_list):
         self.oldrect = self.rect.copy()
         # 押されたキーを受け取る
         self.is_flip = False
@@ -36,14 +39,26 @@ class PlayerSample(Character):
         if key[K_a]:                     # 矢印キー左が押されているとき(長押し)
             super().move(-self.dx, 0)
             self.direction = 0
-        if key[K_SPACE] and self.onfloor == True:
-            super().move(0, -self.dy)
-            self.onfloor = False
+
+        for event in event_list:
+            if event.type == KEYDOWN:
+                if event.key == K_SPACE:
+                    self.jump_count += 1
+                    self.jump()
+            if event.type == KEYUP:
+                if event.key == K_SPACE:
+                    self.onfloor = False
+                    self.jump_count = 0
+                               
         
          # 向きの設定
         self.image = pygame.transform.flip(self.image, (self.direction != self.pre_dire), False)
         self.pre_dire = self.direction
 
+    def jump(self):
+        if self.onfloor and self.jump_count < 20:
+            super().move(0, -self.dy)
+    
     def natural_down(self):
         super().move(0, self.gravity)
 
