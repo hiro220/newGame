@@ -27,4 +27,5 @@ class SampleMap(MapBase):
             WallObject(i, 0, 100, 100)
 
         MovingFloor(0, 400, 100, 100)
+        DeathObject(600,200,100,100)
         
