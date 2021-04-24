@@ -7,7 +7,7 @@ from pygame.locals import *
 from character.player import PlayerSample
 from character.enemy.enemy_base import EnemyBase     #enemyで追加したプログラム
 from character.enemy.exsample_enemy import EnemySample   #enemyで追加したプログラム
-from objects.wall_object import WallObject, MovingFloor, DeathObject
+from objects.wall_object import WallObject, MovingFloor
 from common.timer import Timer
 
 class Game:
