@@ -36,12 +36,10 @@ class PlayerSample(Character):
         if key[K_d]:                    # 矢印キー右が押されているとき(長押し)
             super().move(self.dx, 0)
             self.direction = 1
-            return self.dx, 0
             
         if key[K_a]:                     # 矢印キー左が押されているとき(長押し)
             super().move(-self.dx, 0)
             self.direction = 0
-            return -self.dx, 0
 
         for event in event_list:
             if event.type == KEYDOWN:
