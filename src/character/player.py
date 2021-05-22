@@ -36,7 +36,6 @@ class PlayerSample(Character):
         if key[K_d]:                    # 矢印キー右が押されているとき(長押し)
             super().move(self.dx, 0)
             self.direction = 1
-            
         if key[K_a]:                     # 矢印キー左が押されているとき(長押し)
             super().move(-self.dx, 0)
             self.direction = 0
@@ -62,5 +61,3 @@ class PlayerSample(Character):
     
     def natural_down(self):
         super().move(0, self.gravity)
-
-        
