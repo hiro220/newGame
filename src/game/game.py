@@ -9,6 +9,7 @@ from character.enemy.enemy_base import EnemyBase     #enemyで追加したプロ
 from character.enemy.exsample_enemy import EnemySample   #enemyで追加したプログラム
 from objects.wall_object import WallObject, MovingFloor
 from common.timer import Timer
+from include.window import *
 
 class Game:
     def __init__(self, screen):
@@ -31,6 +32,7 @@ class Game:
         self.enemy = EnemySample()      #enemyで追加したプログラム
 
     def do(self):
+        self.initCamera()
         while True:
             self.clock.tick(30)         # フレームレート(30fps)
             self.process()
@@ -68,5 +70,12 @@ class Game:
         player_newpos = self.player.rect.center
         dx = player_oldpos[0] - player_newpos[0]
         dy = player_oldpos[1] - player_newpos[1]
+        for object in self.camera_group.sprites():
+            object.rect.move_ip(dx, dy)
+
+    def initCamera(self):
+        player_newpos = self.player.rect.center
+        dx = WIDTH // 2 - player_newpos[0]
+        dy = HEIGHT // 2 - player_newpos[1]
         for object in self.camera_group.sprites():
             object.rect.move_ip(dx, dy)
