@@ -20,22 +20,21 @@ class Game:
         self.players = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
         self.timers = pygame.sprite.Group()
-        #self.camera = Camera()
+        self.camera_group = pygame.sprite.Group()
 
-        PlayerSample.containers = self.players
-        EnemyBase.containers = self.enemies
+        PlayerSample.containers = self.players, self.camera_group
+        EnemyBase.containers = self.enemies, self.camera_group
+        WallObject.containers = self.wall_group, self.camera_group
         Timer.containers = self.timers
 
         self.player = PlayerSample()
         self.enemy = EnemySample()      #enemyで追加したプログラム
-        
-        WallObject.containers = self.wall_group
-        Timer.containers = self.timers
 
     def do(self):
         while True:
             self.clock.tick(30)         # フレームレート(30fps)
             self.process()
+            self.cameraProcess()
             self.draw(self.screen)
             pygame.display.update()
 
@@ -52,7 +51,6 @@ class Game:
         for event in event_list:
             if event.type == KEYDOWN:
                 # キーボード入力
-                self.move()
                 pass
             elif event.type == QUIT:
                 # 終了(×ボタン)をクリック
@@ -64,3 +62,11 @@ class Game:
         self.enemies.draw(screen)      #enemyで追加したプログラム
         self.wall_group.draw(screen)
         
+    def cameraProcess(self):
+        # プレイヤーの位置に合わせて全オブジェクトを移動させる
+        player_oldpos = self.player.oldrect.center
+        player_newpos = self.player.rect.center
+        dx = player_oldpos[0] - player_newpos[0]
+        dy = player_oldpos[1] - player_newpos[1]
+        for object in self.camera_group.sprites():
+            object.rect.move_ip(dx, dy)
