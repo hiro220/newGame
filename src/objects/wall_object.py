@@ -117,6 +117,8 @@ class MovingFloor(WallObject):
             else:
                 xvecLen = self.rect.left - object.rect.right
             object.rect.move_ip(xvecLen, 0)
+            # x方向へ移動させたので、次の当たり判定のために直前のx座標を更新
+            object.oldrect.x = object.rect.x
 
     def move(self, dx, dy):
         self.oldrect = self.rect.copy()
