@@ -1,13 +1,15 @@
 import pygame
 from pygame.locals import *
+from include.map_config import *
 
 class WallObject(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height):
         pygame.sprite.Sprite.__init__(self, self.containers)
-        self.image = pygame.image.load("image/object/wall.jpg").convert_alpha()
+        org_image = pygame.image.load("image/object/wall.jpg").convert_alpha()
+        self.image = pygame.transform.scale(org_image, (width * GRID_SIZE, height * GRID_SIZE))
         self.width = width
         self.height = height
-        self.rect = Rect(x, y, width, height)
+        self.rect = Rect(x * GRID_SIZE, y * GRID_SIZE, width * GRID_SIZE, height * GRID_SIZE)
         
     def update(self, player, enemies):
         if pygame.sprite.collide_rect(self, player):
