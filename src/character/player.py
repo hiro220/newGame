@@ -63,4 +63,3 @@ class PlayerSample(Character):
     
     def natural_down(self):
         super().move(0, self.gravity)
-

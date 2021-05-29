@@ -9,6 +9,7 @@ from character.enemy.enemy_base import EnemyBase     #enemyで追加したプロ
 from character.enemy.exsample_enemy import EnemySample   #enemyで追加したプログラム
 from objects.wall_object import WallObject, MovingFloor
 from common.timer import Timer
+from objects.camera import Camera
 
 class Game:
     def __init__(self, screen):
@@ -20,20 +21,23 @@ class Game:
         self.players = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
         self.timers = pygame.sprite.Group()
-        PlayerSample.containers = self.players
-        EnemyBase.containers = self.enemies
+        self.camera_group = pygame.sprite.Group()
+
+        PlayerSample.containers = self.players, self.camera_group
+        EnemyBase.containers = self.enemies, self.camera_group
+        WallObject.containers = self.wall_group, self.camera_group
         Timer.containers = self.timers
 
         self.player = PlayerSample()
         self.enemy = EnemySample()      #enemyで追加したプログラム
-        
-        WallObject.containers = self.wall_group
-        Timer.containers = self.timers
+        self.camera = Camera(self.camera_group, self.player)
 
     def do(self):
+        self.camera.initCamera()
         while True:
             self.clock.tick(30)         # フレームレート(30fps)
             self.process()
+            self.camera.process()
             self.draw(self.screen)
             pygame.display.update()
 
