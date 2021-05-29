@@ -44,5 +44,6 @@ class SampleMap(MapBase):
         #for i in range(0, 1200, 100):
         #    WallObject(i, 0, 100, 100)
 
-        MovingFloor(0, 400, 100, 100)
+        MovingFloor(0, 13, 1, 1)
+        MovingFloor(0, 12, 1, 1)
         
