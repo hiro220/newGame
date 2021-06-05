@@ -21,7 +21,7 @@ class LoadMap(MapBase):
             # ファイルのパスをリストに追加
             self.map_list += [os.path.join(_root, file) for file in files]
 
-    def loadJson(self, map_id):
+    def _loadJson(self, map_id):
         # マップ情報があるjsonファイルを読み込む
         file = self.map_list[map_id]
         if not os.path.exists(file):
@@ -29,4 +29,12 @@ class LoadMap(MapBase):
         with open(file, 'r', encording='utf-8') as fp:
             self.data = json.load(fp)
         
-    
+    def loadMap(self, map_id):
+        # マップを読み込む
+        self._loadJson(map_id)
+        # マップ作成
+        for object in self.data['object']:
+            pass
+        # マップの実行
+        super().do()
+        
