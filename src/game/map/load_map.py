@@ -1,6 +1,8 @@
+from game.game import Game
 from game.map.map_base import MapBase
 import json
 import os
+from include.game_object import *
 
 class LoadMap(MapBase):
     def __init__(self):
@@ -33,8 +35,12 @@ class LoadMap(MapBase):
         # マップを読み込む
         self._loadJson(map_id)
         # マップ作成
-        for object in self.data['object']:
-            pass
+        for _object in self.data['object']:
+            _id = _object["name"]
+            _x, _y = _object["x"], _object["y"]
+            object = GameObject[_id]
+            object(_x, _y, *_object["args"])
+            
         # マップの実行
         super().do()
         
