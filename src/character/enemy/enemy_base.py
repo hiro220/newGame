@@ -6,7 +6,7 @@ from pygame.locals import *
 from character.character import Character
 
 class EnemyBase(Character):
-    def __init__(self,hp,image_path,gravity=0, player=None):
+    def __init__(self, x, y, image_path,player=None, wall_group=None):
         super().__init__(image_path)
         pygame.sprite.Sprite.__init__(self, self.containers)
         # 画像と当たり判定の設定
@@ -21,12 +21,19 @@ class EnemyBase(Character):
         # 移動速度
         self.dx = 10
         self.dy = 10
-        self.enemy_hp = hp
-        self.gravity = gravity
+        self.enemy_hp = 10
+        self.gravity = 0
 
-        # 向き
-        #self.pre_dire = 1
-        #self.direction = 1
+        # 特定の場所の移動する
+        self.move(x,y)
+
+
+    def set_gravity(self, gravity_par):
+        self.gravity = gravity_par
+
+    def set_hp(self, hp):
+        self.enemy_hp = hp
+
     def update(self):
         self.gravity_effect()
         

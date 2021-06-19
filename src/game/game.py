@@ -29,7 +29,7 @@ class Game:
         Timer.containers = self.timers
 
         self.player = PlayerSample()
-        self.enemy = EnemySample(self.player)      #enemyで追加したプログラム
+        self.enemy = EnemySample(400,200, self.player)      #enemyで追加したプログラム
         self.camera = Camera(self.camera_group, self.player)
 
     def do(self):
