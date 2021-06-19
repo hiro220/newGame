@@ -4,13 +4,11 @@ from include.map_config import *
 from common.objects_origin import ObjectsOrigin 
 
 class WallObject(ObjectsOrigin):
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self, self.containers)
         org_image = pygame.image.load("image/object/wall.jpg").convert_alpha()
-        self.image = pygame.transform.scale(org_image, (width * GRID_SIZE, height * GRID_SIZE))
-        self.width = width
-        self.height = height
-        self.rect = Rect(x * GRID_SIZE, y * GRID_SIZE, width * GRID_SIZE, height * GRID_SIZE)
+        self.image = pygame.transform.scale(org_image, (GRID_SIZE, GRID_SIZE))
+        self.rect = Rect(x * GRID_SIZE, y * GRID_SIZE, GRID_SIZE, GRID_SIZE)
         
     def update(self, player, enemies):
         if pygame.sprite.collide_rect(self, player):
@@ -73,8 +71,8 @@ class WallObject(ObjectsOrigin):
             object.rect.move_ip(0, -yvecLen)
 
 class MovingFloor(WallObject):
-    def __init__(self, x, y, width, height):
-        super().__init__(x, y, width, height)
+    def __init__(self, x, y):
+        super().__init__(x, y)
         self.oldrect = self.rect.copy()
         self.dx = 5
         self.dy = 0
