@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-import include.game_object
+from include.game_object import *
 
 class CreateMap:
     def __init__(self, screen):
@@ -10,6 +10,8 @@ class CreateMap:
 
         self.clock = pygame.time.Clock()        # 時間管理用
         self.screen = screen
+
+        self.obj = None
 
         self.do()
 
@@ -35,6 +37,8 @@ class CreateMap:
     def draw(self, screen):
         self.screen.fill((0,0,0))
         self.screen.blit(self.exit_text, [10, 10])         # START GAMEを描画   
+        self.screen.blit(self.obj, (500, 300))
 
     def read_objects(self):
-        print("1")
+        obj = GameObject["1"]()
+        self.obj = obj.get_image()
