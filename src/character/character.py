@@ -2,8 +2,9 @@
 # coding:utf-8
 
 import pygame
+from common.objects_origin import ObjectsOrigin  
 
-class Character(pygame.sprite.Sprite):
+class Character(ObjectsOrigin):
     def __init__(self, img_path):
         self.image = pygame.image.load(img_path).convert_alpha()
         self.rect = self.image.get_rect()

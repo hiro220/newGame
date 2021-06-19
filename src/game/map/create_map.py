@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+import include.game_object
 
 class CreateMap:
     def __init__(self, screen):
@@ -13,10 +14,10 @@ class CreateMap:
         self.do()
 
     def do(self):
-        print("tes")
         while True:
             self.clock.tick(30)         # フレームレート(30fps)
             self.process()
+            self.read_objects()
             self.draw(self.screen)
             pygame.display.update()
 
@@ -34,3 +35,6 @@ class CreateMap:
     def draw(self, screen):
         self.screen.fill((0,0,0))
         self.screen.blit(self.exit_text, [10, 10])         # START GAMEを描画   
+
+    def read_objects(self):
+        print("1")
