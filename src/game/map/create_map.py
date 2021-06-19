@@ -1,10 +1,12 @@
 import pygame
 from pygame.locals import *
+from include.window import *
+from include.map_config import *
 
 class CreateMap:
     def __init__(self, screen):
         font = pygame.font.Font(None, 25)
-        self.exit_text = font.render("Q(click x)", True, (255,255,255))   #テキストSTART_GAME
+        self.exit_text = font.render("Q(click x)", True, (255,0,0))   #テキストSTART_GAME
         self.exit = False
 
         self.clock = pygame.time.Clock()        # 時間管理用
@@ -32,5 +34,13 @@ class CreateMap:
 
 
     def draw(self, screen):
-        self.screen.fill((0,0,0))
+        self.screen.fill((255,255,255))
+        self.showGrid()
         self.screen.blit(self.exit_text, [10, 10])         # START GAMEを描画   
+
+    def showGrid(self):
+        gridx_size, gridy_size = WIDTH // GRID_SIZE, HEIGHT // GRID_SIZE
+        for x in range(gridx_size):
+            pygame.draw.line(self.screen, (0,0,0), (x*GRID_SIZE, 0), (x*GRID_SIZE, HEIGHT))
+        for y in range(gridy_size):
+            pygame.draw.line(self.screen, (0,0,0), (0, y*GRID_SIZE), (WIDTH, y*GRID_SIZE))
