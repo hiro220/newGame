@@ -1,3 +1,4 @@
+from common.objects_origin import ObjectsOrigin
 import pygame
 from pygame.locals import *
 from include.game_object import *
@@ -12,6 +13,9 @@ class CreateMap:
 
         self.clock = pygame.time.Clock()        # 時間管理用
         self.screen = screen
+
+        self.object = pygame.sprite.Group()
+        ObjectsOrigin.containers = self.object
 
         self.obj = None
 
@@ -39,12 +43,12 @@ class CreateMap:
     def draw(self, screen):
         self.screen.fill((255,255,255))
         self.showGrid()
-        self.screen.blit(self.exit_text, [10, 10])         # START GAMEを描画   
-        self.screen.blit(self.obj, (500, 300))
+        self.screen.blit(self.exit_text, [10, 10])         # START GAMEを描画
+        self.object.draw(screen)   
 
     def read_objects(self):
-        obj = GameObject["1"]()
-        self.obj = obj.get_image()
+        for key, value in GameObject.items():
+            value(14, int(key))
 
     def showGrid(self):
         gridx_size, gridy_size = WIDTH // GRID_SIZE, HEIGHT // GRID_SIZE
