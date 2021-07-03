@@ -12,7 +12,8 @@ class Button(pygame.sprite.Sprite):
             # image_pathがイメージに変換されているものとする
             self.image = image_path
 
-        self.mouse_down = False
+        self.mouse_down = False     # このボタンの左クリック押下状態
+        self.is_visible = False     # ボタンの表示可否
 
         self.x = x
         self.y = y
@@ -27,20 +28,26 @@ class Button(pygame.sprite.Sprite):
             if event.type == MOUSEBUTTONUP and event.dict["button"] == 1:
                 # 左クリック
                 x, y = event.dict["pos"]
+                # ボタン内で押下後離された
                 if self.isPosInButton(x, y) and self.mouse_down:
                     self.mouse_down = False
-                    return True
+                    return True 
                 else:
-                    self.mouse_down = False
-                    return False 
+                    self.mouse_down = False 
 
             if event.type == MOUSEBUTTONDOWN and event.dict["button"] == 1:
                 # 左クリック押下
                 x, y = event.dict["pos"]
                 self.mouse_down = self.isPosInButton(x, y)
-                return False
+
+        return False
     
     def isPosInButton(self, x, y):
+        # 表示状態かつボタン内クリック
         bool_x = (self.x <= x <= self.x + self.width)
         bool_y = (self.y <= y <= self.y + self.height)
-        return bool_x and bool_y
+        return bool_x and bool_y and self.is_visible
+
+    def setVisible(self, bool_visible):
+        # ボタンの表示状態を変更
+        self.is_visible = bool_visible
