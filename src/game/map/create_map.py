@@ -5,6 +5,7 @@ from include.game_object import GameObject
 from include.window import *
 from include.map_config import *
 from objects.wall_object import WallObject
+from game.map.object_tab import ObjectTab
 
 import json
 
@@ -21,6 +22,9 @@ class CreateMap:
         self.mouse_down = False                     # マウス押下状態
         self.object_id = "-1"                       # 選択中のオブジェクト
 
+        # オブジェクト表示タブ
+        self.tab = ObjectTab(screen, 1060, 0)
+
         self.clock = pygame.time.Clock()        # 時間管理用
         self.screen = screen
 
@@ -35,7 +39,6 @@ class CreateMap:
         while True:
             self.clock.tick(30)         # フレームレート(30fps)
             self.process()
-            self.read_objects()
             self.draw(self.screen)
             pygame.display.update()
 
@@ -44,6 +47,10 @@ class CreateMap:
     
     def process(self):
         event_list = pygame.event.get()     # pygame.event.get()は取得したイベントをキューから削除する。
+
+        self.tab.updateClickedButton(event_list)
+        self.object_id = self.tab.retButtonID()
+
         for event in event_list:
             if event.type == QUIT:
                 # 終了(×ボタン)をクリック
@@ -67,11 +74,8 @@ class CreateMap:
         self.screen.fill((255,255,255))
         self.showGrid()
         self.screen.blit(self.exit_text, [10, 10])         # START GAMEを描画
-        self.object.draw(screen)   
-
-    def read_objects(self):
-        for key, value in GameObject.items():
-            value(14, int(key))
+        self.object.draw(screen)
+        self.tab.showTab()
 
     def showGrid(self):
         gridx_size, gridy_size = WIDTH // GRID_SIZE, HEIGHT // GRID_SIZE
