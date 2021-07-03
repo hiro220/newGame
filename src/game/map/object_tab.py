@@ -11,9 +11,12 @@ class ObjectTab:
 
         self.x = x
         self.y = y
+        self.width = 100
+        self.height = 600
 
         self.button_dict = {}       # ボタンを格納するリスト 
         self.select_button = "-1"   # 選択中のボタンID
+        self.isvisible = True       # タブの表示状態(非表示実装時に初期値False)
 
         ObjectsOrigin.containers = pygame.sprite.Group()
 
@@ -21,7 +24,13 @@ class ObjectTab:
 
     def showTab(self):
         # タブを表示
-        pygame.draw.rect(self.screen, (255,0,0), (self.x, self.y, 100, 600))
+        pygame.draw.rect(self.screen, (255,0,0), (self.x, self.y, self.width, self.height))
+        for button in self.button_dict.values():
+            if self.isInTab(button.rect):
+                button.setVisible(True)
+                self.screen.blit(button.image, button.rect)
+            else:
+                button.setVisible(False)
 
     def setObjects(self):
         # オブジェクトに対応するボタンを生成
@@ -38,3 +47,11 @@ class ObjectTab:
     def retButtonID(self):
         # 選択中のオブジェクトIDをreturn
         return self.select_button
+    
+    def isInTab(self, rect):
+        bool_x = (self.x <= rect.left <= self.x + self.width)
+        bool_w = (self.x <= rect.right <= self.x + self.width)
+        bool_y = (self.y <= rect.top <= self.y + self.height)
+        bool_h = (self.y <= rect.bottom <= self.y + self.height)
+
+        return bool_x and bool_w and bool_y and bool_h and self.isvisible
