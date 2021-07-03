@@ -8,7 +8,7 @@ from character.character import Character
 from include.map_config import *
 
 class PlayerSample(Character):
-    def __init__(self):
+    def __init__(self, x, y):
         super().__init__("image/character/player.png")
         pygame.sprite.Sprite.__init__(self, self.containers)
         # 画像と当たり判定の設定
@@ -24,7 +24,7 @@ class PlayerSample(Character):
         self.pre_dire = 1
         self.direction = 1
         # 初期位置
-        super().move(100, 100)
+        super().move(x, y)
 
         self.jump_count = 0
         pygame.key.set_repeat(5, 10)

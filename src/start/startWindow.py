@@ -62,7 +62,6 @@ class StartWindow:
         if self.select == 0:
             SampleMap(self.screen)
         elif self.select == 1:
-            print("test")
             CreateMap(self.screen)
         elif self.select == 2:
             self.exit = True
