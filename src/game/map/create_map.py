@@ -101,7 +101,6 @@ class CreateMap:
         obj_info = {"name" : self.object_id, "x" : x, "y" : y}
         self.setted_grid += [(x, y)]
         self.object_list += [obj_info]
-        print(obj_info)
         # オブジェクト描画処理
         GameObject[self.object_id](x, y)
         
