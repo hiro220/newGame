@@ -7,6 +7,7 @@ from include.map_config import *
 from objects.wall_object import WallObject
 from game.map.object_tab import ObjectTab
 
+import os
 import json
 
 class CreateMap:
@@ -107,6 +108,8 @@ class CreateMap:
     def saveMap(self):
         # 作成したマップ情報を保存
         filepath = "mapinfo/map1.json"
+        if not os.path.exists("mapinfo"):
+            os.mkdir("mapinfo")
         fp = open(filepath, 'w', encoding="utf-8")
         json.dump(self.data, fp, indent=2)
         fp.close()
