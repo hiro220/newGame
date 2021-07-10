@@ -45,7 +45,7 @@ class ObjectTab:
                 self.select_button = key
         # タブ内のクリック判定
         for event in event_list:
-            if event.type in (MOUSEBUTTONUP, MOUSEBUTTONDOWN) and event.dict["button"] == 1:
+            if (event.type == MOUSEBUTTONDOWN) and (event.dict["button"] == 1):
                 x, y = event.dict["pos"]
                 # タブ上をクリックしていたならイベント削除
                 if self.isInTab(Rect(x, y, 1, 1)):

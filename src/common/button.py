@@ -31,8 +31,6 @@ class Button(pygame.sprite.Sprite):
                 # ボタン内で押下後離された
                 if self.isPosInButton(x, y) and self.mouse_down:
                     self.mouse_down = False
-                    # イベントリストからボタン押下イベント削除
-                    event_list.remove(event)
                     return True 
                 else:
                     self.mouse_down = False 
