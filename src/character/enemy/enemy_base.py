@@ -9,6 +9,7 @@ class EnemyBase(Character):
     def __init__(self, x, y, image_path,player=None, wall_group=None):
         super().__init__(image_path)
         pygame.sprite.Sprite.__init__(self, self.containers)
+        self.setInitGridPos(x, y)
         # 画像と当たり判定の設定
         self.base_image = self.image
         self.image = pygame.transform.scale(self.image, (80, 100))

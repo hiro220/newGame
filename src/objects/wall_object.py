@@ -7,6 +7,7 @@ class WallObject(ObjectsOrigin):
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self, self.containers)
         org_image = pygame.image.load("image/object/wall.jpg").convert_alpha()
+        self.setInitGridPos(x, y)
         self.image = pygame.transform.scale(org_image, (GRID_SIZE, GRID_SIZE))
         self.rect = Rect(x * GRID_SIZE, y * GRID_SIZE, GRID_SIZE, GRID_SIZE)
         
