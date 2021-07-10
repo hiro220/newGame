@@ -99,7 +99,7 @@ class CreateMap:
         if "-1" == self.object_id:
             return
         # オブジェクト情報の追加
-        obj_info = {"name" : self.object_id, "x" : x, "y" : y}
+        obj_info = {"name" : self.object_id, "x" : x, "y" : y, "args":[]}
         self.setted_grid += [(x, y)]
         self.object_list += [obj_info]
         # オブジェクト描画処理

@@ -5,9 +5,10 @@ import os
 from include.game_object import *
 
 class LoadMap(MapBase):
-    def __init__(self):
+    def __init__(self, screen):
         self.map_list = []
         self.data = {}
+        self.screen = screen
 
     def getMaplist(self):
         # マップのリストを取得
@@ -28,12 +29,14 @@ class LoadMap(MapBase):
         file = self.map_list[map_id]
         if not os.path.exists(file):
             assert "ファイルが見つかりません。"
-        with open(file, 'r', encording='utf-8') as fp:
+        with open(file, 'r') as fp:
             self.data = json.load(fp)
         
     def loadMap(self, map_id):
-        # マップを読み込む
+        # マップファイルを読み込む
         self._loadJson(map_id)
+        # ゲーム初期化
+        super().__init__(self.screen)
         # マップ作成
         for _object in self.data['object']:
             _id = _object["name"]

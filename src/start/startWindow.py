@@ -7,6 +7,7 @@ import os
 
 from game.map.sample_map import SampleMap
 from game.map.create_map import CreateMap
+from game.map.load_map import LoadMap
 
 class StartWindow:
     def __init__(self, screen):
@@ -18,6 +19,7 @@ class StartWindow:
         self.select = 0
         self.screen = screen
         self.exit = False
+        self.maps = LoadMap(screen)
         self.do()
 
     def do(self):
@@ -60,7 +62,9 @@ class StartWindow:
         
     def keyReturn(self):
         if self.select == 0:
-            SampleMap(self.screen)
+            self.maps.updateMapInfo()
+            self.maps.loadMap(0)
+            # SampleMap(self.screen)
         elif self.select == 1:
             CreateMap(self.screen)
         elif self.select == 2:
