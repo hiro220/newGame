@@ -90,14 +90,17 @@ class CreateMap:
         x, y = position
         return x // GRID_SIZE, y // GRID_SIZE
 
-
     def setObject(self, x, y):
-        # すでにオブジェクトのある座標は無視する
-        if (x, y) in self.setted_grid:
-            return
         # 選択中でない
         if "-1" == self.object_id:
             return
+        # 消しゴムツール
+        if ERASER == self.object_id:
+            self.deleteObject(x, y)
+            return
+        # すでにオブジェクトのある座標は無視する
+        if (x, y) in self.setted_grid:
+            returns
         # オブジェクト情報の追加
         obj_info = {"name" : self.object_id, "x" : x, "y" : y, "args":[]}
         self.setted_grid += [(x, y)]
@@ -113,3 +116,20 @@ class CreateMap:
         fp = open(filepath, 'w', encoding="utf-8")
         json.dump(self.data, fp, indent=2)
         fp.close()
+
+    def deleteObject(self, x, y):
+        # すでに配置済みのオブジェクトを削除する
+        # 配置済み座標管理リストから削除
+        if (x, y) in self.setted_grid:
+            self.setted_grid.remove((x, y))
+        # マップデータから削除
+        for object in self.object_list:
+            if (object["x"] == x) and (object["y"] == y):
+                # forの元リストをremoveすると順序が狂うがこの条件のみなので問題ない
+                # 今後同じ座標にオブジェクトがおけるようになるなら実装見直しが必要
+                self.object_list.remove(object)
+        # 描画グループから削除
+        for object in self.object.sprites():
+            obj_x, obj_y = object.grid_pos
+            if (obj_x == x) and (obj_y == y):
+                object.kill()
