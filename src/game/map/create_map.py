@@ -58,15 +58,15 @@ class CreateMap:
                 self.saveMap()
                 self.exit = True
             # マウス操作
-            if event.type == MOUSEBUTTONUP and event.dict["button"] == 1:
+            if (event.type == MOUSEBUTTONUP) and (event.dict["button"] == 1):
                 # 左クリック
                 self.mouse_down = False
-            if event.type == MOUSEBUTTONDOWN and event.dict["button"] == 1:
+            if (event.type == MOUSEBUTTONDOWN) and (event.dict["button"] == 1):
                 # 左クリック押下
                 self.mouse_down = True
                 x, y = self.pix2Grid(event.dict["pos"])
                 self.setObject(x, y)
-            if event.type == MOUSEMOTION and self.mouse_down:
+            if (event.type == MOUSEMOTION) and self.mouse_down:
                 # マウス移動
                 x, y = self.pix2Grid(event.dict["pos"])
                 self.setObject(x, y)
