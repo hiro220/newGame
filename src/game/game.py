@@ -27,8 +27,7 @@ class Game:
         EnemyBase.containers = self.enemies, self.camera_group
         WallObject.containers = self.wall_group, self.camera_group
         Timer.containers = self.timers
-        print("containers")
-
+        
         self.player = PlayerSample(100, 100)
         self.enemy = EnemySample(400,200, self.player)      #enemyで追加したプログラム
         self.camera = Camera(self.camera_group, self.player)
