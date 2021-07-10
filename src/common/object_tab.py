@@ -3,7 +3,7 @@ from include.map_config import GRID_SIZE
 import pygame
 from pygame.locals import *
 from include.game_object import GameObject
-from game.map.button import Button
+from common.button import Button
 
 class ObjectTab:
     def __init__(self, screen, x, y):

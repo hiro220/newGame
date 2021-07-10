@@ -5,7 +5,7 @@ from include.game_object import GameObject
 from include.window import *
 from include.map_config import *
 from objects.wall_object import WallObject
-from game.map.object_tab import ObjectTab
+from common.object_tab import ObjectTab
 
 import os
 import json
