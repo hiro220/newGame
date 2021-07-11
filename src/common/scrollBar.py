@@ -13,6 +13,7 @@ class ScrollBar(pygame.sprite.Sprite):
         self.rect = rect            # 全体のRect
         self.bar_rect = None        # スクロールバーのRect
         self.bar_pos = 0            # スクロールバーの位置
+        self.is_visible = True      # 表示有無
         # マウス処理用変数
         self.is_mouse_down = False  # 左クリック押下状態
         self.cursor_pos = (0, 0)    # 前回のマウスカーソルの位置
@@ -41,16 +42,19 @@ class ScrollBar(pygame.sprite.Sprite):
     def updateBarWithMouse(self, event_list):
         # マウスのドラッグでバーの位置を変える
         for event in event_list:
-            if (event.type == MOUSEBUTTONDOWN) and (event.dict["button"] == 1):
+            if (event.type == MOUSEBUTTONDOWN) and (event.dict["button"] == 1) and self.isBarClicked(event.dict["pos"]):
                 # マウス押下処理はイベントリストから除去する
                 event_list.remove(event)
                 self.is_mouse_down = True
                 self.cursor_pos = event.dict["pos"]
+                print(event)
             if (event.type == MOUSEBUTTONUP) and (event.dict["button"] == 1):
                 self.is_mouse_down = False
+                print(event)
             if (event.type == MOUSEMOTION) and self.is_mouse_down:
                 # スクロールバーのドラッグ
                 self.moveBar(event.dict["pos"])
+                print(event)
 
     def moveBar(self, position):
         # カーソルの移動量計算
@@ -63,18 +67,20 @@ class ScrollBar(pygame.sprite.Sprite):
             pre_cursor = self.cursor_pos[0]
             max_size = self.rect.width
         move_step = int(self.step * max_size / self.max_size)
-        cur_move_size = pre_cursor - cursor
-
+        cur_move_size = cursor - pre_cursor
+        print(cur_move_size, move_step, self.step, self.view_size)
         # 指定の移動量以上カーソルが移動していたなら、バーを移動させる
         if abs(cur_move_size) >= move_step:
             # カーソルの移動量の細かい部分は切り捨て、move_stepの倍数分だけバーを移動
             x = move_step * (cur_move_size // move_step) * (not self.is_vertical)
             y = move_step * (cur_move_size // move_step) * (self.is_vertical)
             self.bar_rect.move_ip(x, y)
+            self.bar_rect.clamp_ip(self.rect)
             # カーソルの位置更新
             self.cursor_pos = position
             # 現在のウィンドウ位置更新
-            self.current = self.step * (cur_move_size // move_step)
+            bar_pos = self.bar_rect.top if self.is_vertical else self.bar_rect.left
+            self.current = bar_pos * (cur_move_size // move_step)
 
     def draw(self, screen):
         # 枠の描画
@@ -90,3 +96,9 @@ class ScrollBar(pygame.sprite.Sprite):
         # 現在のウィンドウ位置を更新する
         self.current = current
         self.resizeBar()
+
+    def isBarClicked(self, pos):
+        # バーをクリックされたか
+        bool_x = self.bar_rect.left <= pos[0] <= self.bar_rect.right
+        bool_y = self.bar_rect.top <= pos[1] <= self.bar_rect.bottom
+        return bool_x and bool_y and self.is_visible
