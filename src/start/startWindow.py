@@ -64,8 +64,10 @@ class StartWindow:
         if self.select == 0:
             self.maps.updateMapInfo()
             self.maps.loadMap(0)
+            pygame.key.set_repeat()
             # SampleMap(self.screen)
         elif self.select == 1:
             CreateMap(self.screen)
+            pygame.key.set_repeat()
         elif self.select == 2:
             self.exit = True
