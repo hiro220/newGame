@@ -47,14 +47,11 @@ class ScrollBar(pygame.sprite.Sprite):
                 event_list.remove(event)
                 self.is_mouse_down = True
                 self.cursor_pos = event.dict["pos"]
-                print(event)
             if (event.type == MOUSEBUTTONUP) and (event.dict["button"] == 1):
                 self.is_mouse_down = False
-                print(event)
             if (event.type == MOUSEMOTION) and self.is_mouse_down:
                 # スクロールバーのドラッグ
                 self.moveBar(event.dict["pos"])
-                print(event)
 
     def moveBar(self, position):
         # カーソルの移動量計算
@@ -68,7 +65,6 @@ class ScrollBar(pygame.sprite.Sprite):
             max_size = self.rect.width
         move_step = int(self.step * max_size / self.max_size)
         cur_move_size = cursor - pre_cursor
-        print(cur_move_size, move_step, self.step, self.view_size)
         # 指定の移動量以上カーソルが移動していたなら、バーを移動させる
         if abs(cur_move_size) >= move_step:
             # カーソルの移動量の細かい部分は切り捨て、move_stepの倍数分だけバーを移動
@@ -77,7 +73,7 @@ class ScrollBar(pygame.sprite.Sprite):
             self.bar_rect.move_ip(x, y)
             self.bar_rect.clamp_ip(self.rect)
             # カーソルの位置更新
-            self.cursor_pos = position
+            self.cursor_pos = (self.cursor_pos[0] + x, self.cursor_pos[1] + y)
             # 現在のウィンドウ位置更新
             bar_pos = self.bar_rect.top if self.is_vertical else self.bar_rect.left
             self.current = bar_pos * (cur_move_size // move_step)
