@@ -100,7 +100,7 @@ class CreateMap:
             return
         # すでにオブジェクトのある座標は無視する
         if (x, y) in self.setted_grid:
-            returns
+            return
         # オブジェクト情報の追加
         obj_info = {"name" : self.object_id, "x" : x, "y" : y, "args":[]}
         self.setted_grid += [(x, y)]
