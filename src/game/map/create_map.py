@@ -1,6 +1,7 @@
 from common.objects_origin import ObjectsOrigin
 import pygame
 from pygame.locals import *
+from common.scrollBar import ScrollBar
 from include.game_object import GameObject
 from include.window import *
 from include.map_config import *
@@ -25,6 +26,11 @@ class CreateMap:
 
         # オブジェクト表示タブ
         self.tab = ObjectTab(screen, 1060, 0)
+
+        # スクロールバー
+        scroll_rect = Rect(0, HEIGHT-10, WIDTH, 10)
+        self.scroll_width = ScrollBar(scroll_rect, WIDTH // GRID_SIZE, 80, 1)
+        self.current_pos = (0, 0)               # 表示しているグリッド位置
 
         self.clock = pygame.time.Clock()        # 時間管理用
         self.screen = screen
@@ -51,6 +57,8 @@ class CreateMap:
 
         self.tab.updateClickedButton(event_list)
         self.object_id = self.tab.retButtonID()
+        # スクロールバーの処理
+        self.scrollProcess(event_list)
 
         for event in event_list:
             if event.type == QUIT:
@@ -77,6 +85,7 @@ class CreateMap:
         self.screen.blit(self.exit_text, [10, 10])         # START GAMEを描画
         self.object.draw(screen)
         self.tab.showTab()
+        self.scroll_width.draw(screen)
 
     def showGrid(self):
         gridx_size, gridy_size = WIDTH // GRID_SIZE, HEIGHT // GRID_SIZE
@@ -91,19 +100,21 @@ class CreateMap:
         return x // GRID_SIZE, y // GRID_SIZE
 
     def setObject(self, x, y):
+        # 実位置の調整
+        act_x, act_y = x + self.current_pos[0], y + self.current_pos[1]
         # 選択中でない
         if "-1" == self.object_id:
             return
         # 消しゴムツール
         if ERASER == self.object_id:
-            self.deleteObject(x, y)
+            self.deleteObject(act_x, act_y)
             return
         # すでにオブジェクトのある座標は無視する
-        if (x, y) in self.setted_grid:
+        if (act_x, act_y) in self.setted_grid:
             return
         # オブジェクト情報の追加
-        obj_info = {"name" : self.object_id, "x" : x, "y" : y, "args":[]}
-        self.setted_grid += [(x, y)]
+        obj_info = {"name" : self.object_id, "x" : act_x, "y" : act_y, "args":[]}
+        self.setted_grid += [(act_x, act_y)]
         self.object_list += [obj_info]
         # オブジェクト描画処理
         GameObject[self.object_id](x, y)
@@ -133,3 +144,16 @@ class CreateMap:
             obj_x, obj_y = object.grid_pos
             if (obj_x == x) and (obj_y == y):
                 object.kill()
+
+    def scrollProcess(self, event_list):
+        # スクロールバーの処理
+        self.scroll_width.updateBarWithMouse(event_list)
+        current_x = self.scroll_width.getWindowPosition()
+        dx = (self.current_pos[0] - current_x) * GRID_SIZE
+        dy = 0
+        
+        # スクロールバーの位置に応じて画面のオブジェクトを移動する
+        if (dx != 0) or (dy != 0):
+            self.current_pos = (current_x, 0)
+            for object in self.object.sprites():
+                object.rect.move_ip(dx, dy)
