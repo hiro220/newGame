@@ -29,7 +29,7 @@ class Game:
         Timer.containers = self.timers
         
         self.player = PlayerSample(100, 100)
-        self.enemy = EnemySample(400,200, self.player)      #enemyで追加したプログラム
+        self.enemy = EnemySample(10,5)      #enemyで追加したプログラム
         self.camera = Camera(self.camera_group, self.player)
 
     def do(self):
@@ -48,7 +48,7 @@ class Game:
         self.timers.update()
         event_list = pygame.event.get()     # pygame.event.get()は取得したイベントをキューから削除する。
         self.player.move(event_list)
-        self.enemies.update()      #enemyで追加したプログラム
+        self.enemies.update(self.player, self.wall_group)      #enemyで追加したプログラム
         self.wall_group.update(self.player, self.enemies)
 
         for event in event_list:

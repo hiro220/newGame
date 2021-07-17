@@ -5,19 +5,18 @@ import pygame
 from pygame.locals import *
 from character.character import Character
 
+from include.map_config import *
+
 class EnemyBase(Character):
-    def __init__(self, x, y, image_path,player=None, wall_group=None):
+    def __init__(self, x, y, image_path, size_x, size_y):
         super().__init__(image_path)
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.setInitGridPos(x, y)
         # 画像と当たり判定の設定
         self.base_image = self.image
-        self.image = pygame.transform.scale(self.image, (80, 100))
+        self.image = pygame.transform.scale(self.image, (int(size_x*GRID_SIZE), int(size_y*GRID_SIZE)))
         self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
-
-        # プレイヤーのデータを格納
-        self.player = player 
     
         # 移動速度
         self.dx = 10
@@ -26,7 +25,7 @@ class EnemyBase(Character):
         self.gravity = 0
 
         # 特定の場所の移動する
-        self.move(x,y)
+        self.move(x*GRID_SIZE,y*GRID_SIZE)
 
 
     def set_gravity(self, gravity_par):
@@ -47,8 +46,8 @@ class EnemyBase(Character):
         super().move(0, self.gravity)
     
     # プレイヤーとのあたり判定を測定
-    def collision_detection(self):
-        if self.rect.colliderect(self.player.rect):
+    def collision_detection(self, player):
+        if self.rect.colliderect(player.rect):
             return True
         else:
             return False
