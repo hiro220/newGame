@@ -24,6 +24,7 @@ class Game:
         self.enemies = pygame.sprite.Group()
         self.timers = pygame.sprite.Group()
         self.items = pygame.sprite.Group()
+        self.camera_group = pygame.sprite.Group()
 
         PlayerSample.containers = self.players, self.camera_group
         EnemyBase.containers = self.enemies, self.camera_group
