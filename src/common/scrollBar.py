@@ -83,6 +83,8 @@ class ScrollBar(pygame.sprite.Sprite):
         pygame.draw.rect(screen, (200, 200, 200), self.rect)
         # バーの描画
         pygame.draw.rect(screen, (150, 150, 150), self.bar_rect)
+        # 縁の描画
+        pygame.draw.rect(screen, (180, 180, 180), self.rect, 1)
 
     def getWindowPosition(self):
         # ウィンドウ位置を取得する
