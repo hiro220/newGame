@@ -28,8 +28,10 @@ class CreateMap:
         self.tab = ObjectTab(screen, 1060, 0)
 
         # スクロールバー
-        scroll_rect = Rect(0, HEIGHT-10, WIDTH, 10)
-        self.scroll_width = ScrollBar(scroll_rect, WIDTH // GRID_SIZE, 80, 1)
+        scrollw_rect = Rect(0, HEIGHT-10, WIDTH, 10)
+        self.scroll_width = ScrollBar(scrollw_rect, WIDTH // GRID_SIZE, 80, 1)
+        scrollh_rect = Rect(WIDTH-10, 0, 10, HEIGHT-10)
+        self.scroll_height = ScrollBar(scrollh_rect, HEIGHT // GRID_SIZE, 50, 1, vertical=True)
         self.current_pos = (0, 0)               # 表示しているグリッド位置
 
         self.clock = pygame.time.Clock()        # 時間管理用
@@ -55,11 +57,12 @@ class CreateMap:
     def process(self):
         event_list = pygame.event.get()     # pygame.event.get()は取得したイベントをキューから削除する。
 
-        self.tab.updateClickedButton(event_list)
-        self.object_id = self.tab.retButtonID()
         # スクロールバーの処理
         self.scrollProcess(event_list)
 
+        self.tab.updateClickedButton(event_list)
+        self.object_id = self.tab.retButtonID()
+        
         for event in event_list:
             if event.type == QUIT:
                 # 終了(×ボタン)をクリック
@@ -85,6 +88,7 @@ class CreateMap:
         self.screen.blit(self.exit_text, [10, 10])         # START GAMEを描画
         self.object.draw(screen)
         self.tab.showTab()
+        self.scroll_height.draw(screen)
         self.scroll_width.draw(screen)
 
     def showGrid(self):
@@ -148,12 +152,14 @@ class CreateMap:
     def scrollProcess(self, event_list):
         # スクロールバーの処理
         self.scroll_width.updateBarWithMouse(event_list)
+        self.scroll_height.updateBarWithMouse(event_list)
         current_x = self.scroll_width.getWindowPosition()
+        current_y = self.scroll_height.getWindowPosition()
         dx = (self.current_pos[0] - current_x) * GRID_SIZE
-        dy = 0
+        dy = (self.current_pos[1] - current_y) * GRID_SIZE
         
         # スクロールバーの位置に応じて画面のオブジェクトを移動する
         if (dx != 0) or (dy != 0):
-            self.current_pos = (current_x, 0)
+            self.current_pos = (current_x, current_y)
             for object in self.object.sprites():
                 object.rect.move_ip(dx, dy)
