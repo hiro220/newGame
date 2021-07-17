@@ -11,6 +11,7 @@ from objects.wall_object import WallObject, MovingFloor
 from common.timer import Timer
 from items.item import Item
 from items.sample import SampleItem
+from objects.camera import Camera
 
 class Game:
     def __init__(self, screen):
@@ -24,19 +25,22 @@ class Game:
         self.timers = pygame.sprite.Group()
         self.items = pygame.sprite.Group()
 
-        PlayerSample.containers = self.players
-        EnemyBase.containers = self.enemies
+        PlayerSample.containers = self.players, self.camera_group
+        EnemyBase.containers = self.enemies, self.camera_group
+        WallObject.containers = self.wall_group, self.camera_group
         Timer.containers = self.timers
-        WallObject.containers = self.wall_group
         Item.containers = self.items
-
-        self.player = PlayerSample()
-        self.enemy = EnemySample()      #enemyで追加したプログラム
+ 
+        self.player = PlayerSample(100, 100)
+        self.enemy = EnemySample(10,5)      #enemyで追加したプログラム
+        self.camera = Camera(self.camera_group, self.player)
 
     def do(self):
+        self.camera.initCamera()
         while True:
             self.clock.tick(30)         # フレームレート(30fps)
             self.process()
+            self.camera.process()
             self.draw(self.screen)
             pygame.display.update()
 
@@ -47,7 +51,7 @@ class Game:
         self.timers.update()
         event_list = pygame.event.get()     # pygame.event.get()は取得したイベントをキューから削除する。
         self.player.move(event_list)
-        self.enemies.update()      #enemyで追加したプログラム
+        self.enemies.update(self.player, self.wall_group)      #enemyで追加したプログラム
         self.wall_group.update(self.player, self.enemies)
         self.items.update(self.players)
 

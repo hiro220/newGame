@@ -5,13 +5,16 @@ import pygame
 from pygame.locals import *
 from character.character import Character
 
+from include.map_config import *
+
 class PlayerSample(Character):
-    def __init__(self):
+    def __init__(self, x, y):
         super().__init__("image/character/player.png")
         pygame.sprite.Sprite.__init__(self, self.containers)
+        self.setInitGridPos(x, y)
         # 画像と当たり判定の設定
         self.base_image = self.image
-        self.image = pygame.transform.scale(self.image, (80, 100))
+        self.image = pygame.transform.scale(self.image, (GRID_SIZE, GRID_SIZE * 3 // 2))
         self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
         # 移動速度
@@ -22,7 +25,7 @@ class PlayerSample(Character):
         self.pre_dire = 1
         self.direction = 1
         # 初期位置
-        super().move(100, 100)
+        super().move(x, y)
 
         self.jump_count = 0
         pygame.key.set_repeat(5, 10)
@@ -61,4 +64,3 @@ class PlayerSample(Character):
     
     def natural_down(self):
         super().move(0, self.gravity)
-
