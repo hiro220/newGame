@@ -6,7 +6,8 @@ from pygame.locals import *
 
 from character.player import PlayerSample
 from character.enemy.enemy_base import EnemyBase     #enemyで追加したプログラム
-from character.enemy.exsample_enemy import EnemySample   #enemyで追加したプログラム
+from character.enemy.exsample_enemy import EnemySample
+from objects.death_object import DeathObject
 from objects.wall_object import WallObject, MovingFloor
 from common.timer import Timer
 from objects.camera import Camera
@@ -17,7 +18,8 @@ class Game:
         self.exit = False
         self.screen = screen
 
-        self.wall_group = pygame.sprite.Group()      # オブジェクト[壁]のグループ 
+        self.wall_group = pygame.sprite.Group()      # オブジェクト[壁]のグループ
+        self.death_group = pygame.sprite.Group() 
         self.players = pygame.sprite.Group()
         self.enemies = pygame.sprite.Group()
         self.timers = pygame.sprite.Group()
@@ -26,6 +28,7 @@ class Game:
         PlayerSample.containers = self.players, self.camera_group
         EnemyBase.containers = self.enemies, self.camera_group
         WallObject.containers = self.wall_group, self.camera_group
+        DeathObject.containers = self.death_group, self.camera_group
         Timer.containers = self.timers
         
         self.player = PlayerSample(100, 100)
@@ -50,6 +53,7 @@ class Game:
         self.player.move(event_list)
         self.enemies.update(self.player, self.wall_group)      #enemyで追加したプログラム
         self.wall_group.update(self.player, self.enemies)
+        self.death_group.update(self.player, self.enemies)
 
         for event in event_list:
             if event.type == KEYDOWN:
@@ -64,4 +68,4 @@ class Game:
         self.players.draw(screen)
         self.enemies.draw(screen)      #enemyで追加したプログラム
         self.wall_group.draw(screen)
-        
+        self.death_group.draw(screen)

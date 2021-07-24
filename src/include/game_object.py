@@ -1,6 +1,7 @@
 from character.enemy.exsample_enemy import EnemySample
 from character.player import PlayerSample
 from objects.wall_object import WallObject, MovingFloor
+from objects.death_object import DeathObject
 
 _object_list = \
 [
