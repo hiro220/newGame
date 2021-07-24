@@ -14,18 +14,36 @@ class SampleMap(MapBase):
         super().do()
 
     def createObject(self):
-        for i in range(0, 600, 100):
-            WallObject(0, i, 100, 100)
+        
+        for i in range(0, 15, 1):
+            WallObject(0, i)
+            print(i)
+        
+        for i in range(0, 30, 1):
+            WallObject(i, 0)
 
-        for i in range(0, 600, 100):
-            WallObject(1060, i, 100, 100)
+        for i in range(0, 15, 1):
+            WallObject(28, i)
 
-        for i in range(0, 1200, 100):
-            WallObject(i, 500, 100, 100)
+        for i in range(0,29, 1):
+            WallObject(i, 14)
 
-        for i in range(0, 1200, 100):
-            WallObject(i, 0, 100, 100)
+        
 
-        MovingFloor(0, 400, 100, 100)
-        DeathObject(600,200,100,100)
+
+
+        #for i in range(0, 3, 1):
+        #    WallObject(0, i, 10, 10)
+
+        #for i in range(0, 600, 100):
+        #    WallObject(1060, i, 100, 100)
+
+        #for i in range(0, 1200, 100):
+        #    WallObject(i, 500, 100, 100)
+
+        #for i in range(0, 1200, 100):
+        #    WallObject(i, 0, 100, 100)
+        
+        MovingFloor(0, 13)
+        MovingFloor(0, 12)
         
