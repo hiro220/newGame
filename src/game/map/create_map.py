@@ -12,12 +12,14 @@ import os
 import json
 
 class CreateMap:
-    def __init__(self, screen):
+    def __init__(self, screen, map_id = 1):
         font = pygame.font.Font(None, 25)
         self.exit_text = font.render("Q(click x)", True, (255,0,0))   #テキストSTART_GAME
         self.exit = False
         
         # マップ作成用情報
+        self.map_id = map_id
+        self.samnail = "image/samnail/map{}.png".format(self.map_id)
         self.object_list = []                       # 設置済みオブジェクト一覧
         self.data = {"object" : self.object_list}   # マップ情報
         self.setted_grid = []                       # オブジェクト設置済み座標リスト
@@ -55,6 +57,7 @@ class CreateMap:
                 break
     
     def process(self):
+        pygame.key.set_repeat()
         event_list = pygame.event.get()     # pygame.event.get()は取得したイベントをキューから削除する。
 
         # スクロールバーの処理
@@ -68,6 +71,8 @@ class CreateMap:
                 # 終了(×ボタン)をクリック
                 self.saveMap()
                 self.exit = True
+            if event.type == KEYDOWN and event.key == K_s:
+                self.saveSamnail()
             # マウス操作
             if (event.type == MOUSEBUTTONUP) and (event.dict["button"] == 1):
                 # 左クリック
@@ -124,8 +129,11 @@ class CreateMap:
         GameObject[self.object_id](x, y)
         
     def saveMap(self):
+        # サムネイルを保存していないならここで保存
+        if "samnail" not in self.data:
+            self.saveSamnail()
         # 作成したマップ情報を保存
-        filepath = "mapinfo/map1.json"
+        filepath = "mapinfo/map{}.json".format(self.map_id)
         if not os.path.exists("mapinfo"):
             os.mkdir("mapinfo")
         fp = open(filepath, 'w', encoding="utf-8")
@@ -163,3 +171,16 @@ class CreateMap:
             self.current_pos = (current_x, current_y)
             for object in self.object.sprites():
                 object.rect.move_ip(dx, dy)
+
+    def saveSamnail(self):
+        # 現在の画面を画像に保存する
+        self.screen.fill((255,255,255))
+        self.object.draw(self.screen)
+        pygame.display.update()
+        samnail_dir = "image/samnail"
+        # パスが存在しなければ作成する
+        if not os.path.exists(samnail_dir):
+            os.mkdir(samnail_dir)
+        pygame.image.save(self.screen, self.samnail)
+        self.data["samnail"] = self.samnail
+        self.draw(self.screen)
