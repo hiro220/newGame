@@ -21,8 +21,7 @@ class CreateMap:
         self.map_id = map_id
         self.samnail = "image/samnail/map{}.png".format(self.map_id)
         self.object_list = []                       # 設置済みオブジェクト一覧
-        self.data = {"object" : self.object_list,
-                     "samnail":self.samnail}        # マップ情報
+        self.data = {"object" : self.object_list}   # マップ情報
         self.setted_grid = []                       # オブジェクト設置済み座標リスト
         self.mouse_down = False                     # マウス押下状態
         self.object_id = "-1"                       # 選択中のオブジェクト
@@ -130,6 +129,9 @@ class CreateMap:
         GameObject[self.object_id](x, y)
         
     def saveMap(self):
+        # サムネイルを保存していないならここで保存
+        if "samnail" not in self.data:
+            self.saveSamnail()
         # 作成したマップ情報を保存
         filepath = "mapinfo/map{}.json".format(self.map_id)
         if not os.path.exists("mapinfo"):
@@ -180,4 +182,5 @@ class CreateMap:
         if not os.path.exists(samnail_dir):
             os.mkdir(samnail_dir)
         pygame.image.save(self.screen, self.samnail)
+        self.data["samnail"] = self.samnail
         self.draw(self.screen)
