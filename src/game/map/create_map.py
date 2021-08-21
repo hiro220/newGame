@@ -55,6 +55,7 @@ class CreateMap:
                 break
     
     def process(self):
+        pygame.key.set_repeat()
         event_list = pygame.event.get()     # pygame.event.get()は取得したイベントをキューから削除する。
 
         # スクロールバーの処理
@@ -68,6 +69,8 @@ class CreateMap:
                 # 終了(×ボタン)をクリック
                 self.saveMap()
                 self.exit = True
+            if event.type == KEYDOWN and event.key == K_s:
+                self.saveSamnail()
             # マウス操作
             if (event.type == MOUSEBUTTONUP) and (event.dict["button"] == 1):
                 # 左クリック
@@ -163,3 +166,15 @@ class CreateMap:
             self.current_pos = (current_x, current_y)
             for object in self.object.sprites():
                 object.rect.move_ip(dx, dy)
+
+    def saveSamnail(self):
+        # 現在の画面を画像に保存する
+        self.screen.fill((255,255,255))
+        self.object.draw(self.screen)
+        pygame.display.update()
+        samnail_dir = "image/samnail"
+        # パスが存在しなければ作成する
+        if os.path.exists(samnail_dir):
+            os.mkdir(samnail_dir)
+        pygame.image.save(self.screen, "image/samnail/test.png")
+        self.draw(self.screen)
