@@ -12,14 +12,17 @@ import os
 import json
 
 class CreateMap:
-    def __init__(self, screen):
+    def __init__(self, screen, map_id = 1):
         font = pygame.font.Font(None, 25)
         self.exit_text = font.render("Q(click x)", True, (255,0,0))   #テキストSTART_GAME
         self.exit = False
         
         # マップ作成用情報
+        self.map_id = map_id
+        self.samnail = "image/samnail/map{}.png".format(self.map_id)
         self.object_list = []                       # 設置済みオブジェクト一覧
-        self.data = {"object" : self.object_list}   # マップ情報
+        self.data = {"object" : self.object_list,
+                     "samnail":self.samnail}        # マップ情報
         self.setted_grid = []                       # オブジェクト設置済み座標リスト
         self.mouse_down = False                     # マウス押下状態
         self.object_id = "-1"                       # 選択中のオブジェクト
@@ -128,7 +131,7 @@ class CreateMap:
         
     def saveMap(self):
         # 作成したマップ情報を保存
-        filepath = "mapinfo/map1.json"
+        filepath = "mapinfo/map{}.json".format(self.map_id)
         if not os.path.exists("mapinfo"):
             os.mkdir("mapinfo")
         fp = open(filepath, 'w', encoding="utf-8")
@@ -174,7 +177,7 @@ class CreateMap:
         pygame.display.update()
         samnail_dir = "image/samnail"
         # パスが存在しなければ作成する
-        if os.path.exists(samnail_dir):
+        if not os.path.exists(samnail_dir):
             os.mkdir(samnail_dir)
-        pygame.image.save(self.screen, "image/samnail/test.png")
+        pygame.image.save(self.screen, self.samnail)
         self.draw(self.screen)
