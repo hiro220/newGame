@@ -25,10 +25,12 @@ class ObjectTab:
     def showTab(self):
         # タブを表示
         pygame.draw.rect(self.screen, (255,0,0), (self.x, self.y, self.width, self.height))
-        for button in self.button_dict.values():
+        for keys, button in self.button_dict.items():
             if self.isInTab(button.rect):
                 button.setVisible(True)
                 self.screen.blit(button.image, button.rect)
+                if keys == self.select_button:
+                    pygame.draw.rect(self.screen, (0,255,0), Rect(button.x, button.y, button.width, button.height), 1)
             else:
                 button.setVisible(False)
 
@@ -36,7 +38,7 @@ class ObjectTab:
         # オブジェクトに対応するボタンを生成
         for i, (key, value) in enumerate(GameObject.items()):
             obj = value(0, 0)
-            self.button_dict[key] = Button(self.screen, self.x + 10, i * GRID_SIZE, obj.rect.width, obj.rect.height, obj.image)
+            self.button_dict[key] = Button(self.screen, self.x + 10, i * 100 + 10, obj.rect.width, obj.rect.height, obj.image)
 
     def updateClickedButton(self, event_list):
         # 選択中のオブジェクトを更新
