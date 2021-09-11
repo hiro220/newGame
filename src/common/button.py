@@ -20,6 +20,7 @@ class Button(pygame.sprite.Sprite):
         self.width = width
         self.height = height
         self.rect = pygame.Rect(x, y, width, height)
+        self.image = pygame.transform.scale(self.image, (width, height))
 
     def isClicked(self, event_list):
         # クリックされたならtrue
