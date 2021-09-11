@@ -7,6 +7,7 @@ import os
 
 from game.map.sample_map import SampleMap
 from game.map.create_map import CreateMap
+from start.selectMap import SelectMap
 from game.map.load_map import LoadMap
 
 class StartWindow:
@@ -67,7 +68,8 @@ class StartWindow:
             pygame.key.set_repeat()
             # SampleMap(self.screen)
         elif self.select == 1:
-            CreateMap(self.screen)
+            # CreateMap(self.screen)
+            SelectMap(self.screen)
             pygame.key.set_repeat()
         elif self.select == 2:
             self.exit = True
