@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 
 from include.window import *
+from include.map_config import *
 from game.map.load_map import LoadMap
 from game.map.create_map import CreateMap
 from common.button import Button
@@ -73,6 +74,6 @@ class SelectMap:
             num += 1
             width, height = WIDTH // 2, HEIGHT // 2
             x, y = WIDTH - width * 3 // 2, HEIGHT - height * 3 // 2
-            button = Button(self.screen, x * num, y, width, height, map_info["samnail"])
+            button = Button(self.screen, x * num, y, width, height, map_info[M_SAMNAIL])
             button.setVisible(True)
             self.map_buttons += [button]

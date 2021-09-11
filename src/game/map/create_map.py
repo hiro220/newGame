@@ -21,7 +21,7 @@ class CreateMap:
         self.map_id = map_id
         self.samnail = "image/samnail/map{}.png".format(self.map_id)
         self.object_list = []                       # 設置済みオブジェクト一覧
-        self.data = {"object" : self.object_list}   # マップ情報
+        self.data = {M_OBJECT : self.object_list}   # マップ情報
         self.setted_grid = []                       # オブジェクト設置済み座標リスト
         self.mouse_down = False                     # マウス押下状態
         self.object_id = "-1"                       # 選択中のオブジェクト
@@ -122,7 +122,7 @@ class CreateMap:
         if (act_x, act_y) in self.setted_grid:
             return
         # オブジェクト情報の追加
-        obj_info = {"name" : self.object_id, "x" : act_x, "y" : act_y, "args":[]}
+        obj_info = {M_NAME : self.object_id, M_X : act_x, M_Y : act_y, M_ARGS:[]}
         self.setted_grid += [(act_x, act_y)]
         self.object_list += [obj_info]
         # オブジェクト描画処理
@@ -130,7 +130,7 @@ class CreateMap:
         
     def saveMap(self):
         # サムネイルを保存していないならここで保存
-        if "samnail" not in self.data:
+        if M_SAMNAIL not in self.data:
             self.saveSamnail()
         # 作成したマップ情報を保存
         filepath = "mapinfo/map{}.json".format(self.map_id)
@@ -147,7 +147,7 @@ class CreateMap:
             self.setted_grid.remove((x, y))
         # マップデータから削除
         for object in self.object_list:
-            if (object["x"] == x) and (object["y"] == y):
+            if (object[M_X] == x) and (object[M_Y] == y):
                 # forの元リストをremoveすると順序が狂うがこの条件のみなので問題ない
                 # 今後同じ座標にオブジェクトがおけるようになるなら実装見直しが必要
                 self.object_list.remove(object)
@@ -182,5 +182,5 @@ class CreateMap:
         if not os.path.exists(samnail_dir):
             os.mkdir(samnail_dir)
         pygame.image.save(self.screen, self.samnail)
-        self.data["samnail"] = self.samnail
+        self.data[M_SAMNAIL] = self.samnail
         self.draw(self.screen)

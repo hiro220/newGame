@@ -3,6 +3,7 @@ from game.map.map_base import MapBase
 import json
 import os
 from include.game_object import *
+from include.map_config import *
 
 class LoadMap(MapBase):
     def __init__(self, screen):
@@ -38,11 +39,11 @@ class LoadMap(MapBase):
         # ゲーム初期化
         super().__init__(self.screen)
         # マップ作成
-        for _object in self.data['object']:
-            _id = _object["name"]
-            _x, _y = _object["x"], _object["y"]
+        for _object in self.data[M_OBJECT]:
+            _id = _object[M_NAME]
+            _x, _y = _object[M_X], _object[M_Y]
             object = GameObject[_id]
-            object(_x, _y, *_object["args"])
+            object(_x, _y, *_object[M_ARGS])
             
         # マップの実行
         super().do()
